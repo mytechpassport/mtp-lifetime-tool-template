@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, ReactNode } from "react";
 import vce from "@/lib/vce";
 import { toast } from "sonner";
@@ -31,12 +32,12 @@ export interface AuthContextType {
     password: string,
     name: string,
     role: UserRole,
-    referralCode?: string
+    referralCode?: string,
   ) => Promise<void>;
   oauthLogin: (
     provider: "google" | "microsoft" | "apple",
     referralCode?: string,
-    redirectPath?: string
+    redirectPath?: string,
   ) => Promise<void>;
   logout: () => Promise<void>;
   updateUser: (updates: Partial<User>) => Promise<void>;
@@ -72,7 +73,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
               created_at: currentUser.created_at,
             };
             setUser(mappedUser);
-            
+
             // If we have a user but no localStorage token, the cookie is working
             // This is the expected behavior for cookie-based auth
             const hasLocalToken = TokenManager.getAccessToken();
@@ -111,7 +112,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         TokenManager.storeTokens(
           response.session.access_token,
           response.session.refresh_token,
-          response.session.expires_in
+          response.session.expires_in,
         );
 
         // Map backend user to frontend user interface
@@ -141,7 +142,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     password: string,
     name: string,
     role: UserRole,
-    referralCode?: string
+    referralCode?: string,
   ) => {
     try {
       const signupData: Record<string, string> = {
@@ -161,7 +162,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         TokenManager.storeTokens(
           response.session.access_token,
           response.session.refresh_token,
-          response.session.expires_in
+          response.session.expires_in,
         );
 
         // Map backend user to frontend user interface
@@ -208,7 +209,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const oauthLogin = async (
     provider: "google" | "microsoft" | "apple",
     referralCode?: string,
-    redirectPath?: string
+    redirectPath?: string,
   ) => {
     try {
       // Build the external redirect URL to redirect back to this tool after OAuth
@@ -308,7 +309,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const usersKey = `mockUsers_${user.role}`;
       const users = JSON.parse(localStorage.getItem(usersKey) || "[]");
       const updatedUsers = users.map((u: User) =>
-        u.id === user.id ? updatedUser : u
+        u.id === user.id ? updatedUser : u,
       );
       localStorage.setItem(usersKey, JSON.stringify(updatedUsers));
     }
@@ -337,7 +338,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const usersKey = `mockUsers_${user.role}`;
       const users = JSON.parse(localStorage.getItem(usersKey) || "[]");
       const updatedUsers = users.map((u: User) =>
-        u.id === user.id ? updatedUser : u
+        u.id === user.id ? updatedUser : u,
       );
       localStorage.setItem(usersKey, JSON.stringify(updatedUsers));
     }
@@ -360,7 +361,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const usersKey = `mockUsers_${user.role}`;
       const users = JSON.parse(localStorage.getItem(usersKey) || "[]");
       const updatedUsers = users.map((u: User) =>
-        u.id === user.id ? updatedUser : u
+        u.id === user.id ? updatedUser : u,
       );
       localStorage.setItem(usersKey, JSON.stringify(updatedUsers));
     }
