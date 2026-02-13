@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { toast } from "sonner";
 import { TokenManager } from "./tokenManager";
+import { getApiErrorMessage } from "./apiError";
 
 export interface ApiError {
   message: string;
@@ -11,19 +12,15 @@ export interface ApiError {
 
 export class ErrorHandler {
   /**
-   * Handle API errors
+   * Handle API errors. Uses getApiErrorMessage so tool API shape
+   * ({ error: true, message: "..." }) and normal API shape ({ error: "string" }) both show the right message.
    */
   static handleApiError(error: any): void {
-    const message =
-      error?.message ||
-      error?.error ||
-      error?.response?.data?.error ||
-      error?.response?.data?.message ||
-      "An error occurred";
+    const message = getApiErrorMessage(error, "An error occurred");
+    const description =
+      error?.details && typeof error.details === "string" ? error.details : "";
 
-    toast.error(message, {
-      description: error?.details || "",
-    });
+    toast.error(message, description ? { description } : undefined);
   }
 
   /**
@@ -98,21 +95,10 @@ export class ErrorHandler {
   }
 
   /**
-   * Create user-friendly error message
+   * Create user-friendly error message. Prefers getApiErrorMessage for consistency
+   * (handles tool API { error: true, message } vs normal API { error: "string" }).
    */
   static createUserFriendlyMessage(error: any): string {
-    if (typeof error === "string") {
-      return error;
-    }
-
-    if (error?.message) {
-      return error.message;
-    }
-
-    if (error?.error) {
-      return error.error;
-    }
-
-    return "An unexpected error occurred. Please try again.";
+    return getApiErrorMessage(error, "An unexpected error occurred. Please try again.");
   }
 }

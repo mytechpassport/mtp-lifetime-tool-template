@@ -2363,25 +2363,19 @@ const createVCESDK = (client: VCEClient): VCESDK => {
           return { error: "Unknown error" };
         });
 
-        // Handle token expiration and authentication errors
+        // Only run session-expiry flow when 401 indicates token/session invalidity,
+        // not for resource-specific 401s (e.g. "Google Drive is not connected", "User mismatch").
+        const { isSessionExpiryError } = await import("@/utils/apiError");
         if (
-          response.status === 401 ||
-          errorData.error === "Authentication failed" ||
-          errorData.error === "Authorization token required" ||
-          errorData.error === "Unauthorized" ||
-          errorData.error === "Invalid or expired token" ||
-          errorData.details === "Token expired" ||
-          errorData.details === "Invalid token"
+          response.status === 401 &&
+          isSessionExpiryError(response.status, errorData) &&
+          !skipAuthRedirect
         ) {
-          if (!skipAuthRedirect) {
-            // Import TokenManager dynamically to avoid circular dependency
-            const { TokenManager } = await import("@/utils/tokenManager");
-            await TokenManager.handleTokenExpiration();
-            return; // Don't throw error as TokenManager handles the redirect
-          }
+          const { TokenManager } = await import("@/utils/tokenManager");
+          await TokenManager.handleTokenExpiration();
+          return; // Don't throw error as TokenManager handles the redirect
         }
         throw errorData;
-        // throw new Error(errorData.error || `HTTP ${response.status}`);
       }
 
       const data = await response.json();
@@ -3172,22 +3166,17 @@ const createVCESDK = (client: VCEClient): VCESDK => {
           return { error: "Unknown error" };
         });
 
-        // Handle token expiration and authentication errors
+        // Only run session-expiry flow when 401 indicates token/session invalidity
+        const { isSessionExpiryError } = await import("@/utils/apiError");
         if (
-          response.status === 401 ||
-          errorData.error === "Authentication failed" ||
-          errorData.error === "Authorization token required" ||
-          errorData.error === "Unauthorized" ||
-          errorData.error === "Invalid or expired token" ||
-          errorData.details === "Token expired" ||
-          errorData.details === "Invalid token"
+          response.status === 401 &&
+          isSessionExpiryError(response.status, errorData)
         ) {
-          // Import TokenManager dynamically to avoid circular dependency
           const { TokenManager } = await import("@/utils/tokenManager");
           await TokenManager.handleTokenExpiration();
           return; // Don't throw error as TokenManager handles the redirect
         }
-        throw new Error(errorData.error || `HTTP ${response.status}`);
+        throw new Error(errorData.error || errorData.message || `HTTP ${response.status}`);
       }
 
       // Get the filename from the Content-Disposition header
