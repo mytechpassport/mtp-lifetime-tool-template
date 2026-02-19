@@ -176,9 +176,18 @@ export class TokenManager {
       // OAuth callback page: user is mid-flow (no session yet); don't redirect or show session expired
       const isThirdPartyCallbackPage =
         currentPath.startsWith("/third-party/") && currentPath.includes("/callback");
+      // Public pages (e.g. video view by link) do not require login
+      const isPublicPage = currentPath.startsWith("/public/");
+      // Marketing (non-dashboard) pages should NOT redirect after clearing tokens
+      const isDashboardPage = currentPath.startsWith("/dashboard");
 
       this.clearTokens();
-      if (!isAuthPage && !isThirdPartyCallbackPage) {
+      if (
+        !isAuthPage &&
+        !isThirdPartyCallbackPage &&
+        !isPublicPage &&
+        isDashboardPage // only redirect if on dashboard page
+      ) {
         toast.error("Your session has expired. Please sign in again.");
         const isVendor = currentPath.startsWith("/vendor");
         const authPath = isVendor ? "/vendor/auth" : "/auth";
