@@ -20,7 +20,8 @@ export const useCreditBalance = () => {
     queryKey: creditQueryKeys.balance(),
     queryFn: async () => {
       const response = await getCreditBalance();
-      return response.data;
+      const inner = (response as { data?: { balance?: number } })?.data;
+      return { balance: inner?.balance ?? 0 };
     },
     staleTime: 30 * 1000,
   });

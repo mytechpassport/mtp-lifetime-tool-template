@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useTheme } from "next-themes";
 import { useAuth } from "@/hooks/useAuth";
+import { useCreditBalance } from "@/hooks/api/useCredits";
 import { Button } from "@/components/ui/button";
 import {
   CircleUser,
@@ -114,7 +115,7 @@ export const DashboardLayout = ({
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-medium">
                     <span className="hidden sm:inline">Credits: </span>
-                    {user.credits || 0}
+                    {creditsBalance}
                   </span>
                   <DialogTrigger asChild>
                     <Button
