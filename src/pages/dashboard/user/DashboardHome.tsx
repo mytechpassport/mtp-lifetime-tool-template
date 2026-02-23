@@ -11,6 +11,7 @@ const DashboardHome = () => {
   const { user } = useAuth();
 
   return (
+    <ToolAccessGate slug={MY_TOOL_SLUG}>
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
         <h2 className="text-3xl font-bold">Welcome{user?.name ? `, ${user.name}` : ""}</h2>
@@ -38,12 +39,13 @@ const DashboardHome = () => {
               MTP Tools Guide
             </CardTitle>
             <CardDescription>
-              For slug-based routes, tool access (purchase/subscription), per-tool APIs under <code className="text-xs bg-muted px-1 rounded">/api/custom/mtp/tools/v1/&lt;tool-folder&gt;/</code>, and RBAC, see the MTP Original Tools Guide and Implementation Plan.
+              For slug-based routes, by-slug API <code className="text-xs bg-muted px-1 rounded">/api/custom/mtp/tools/v1/by-slug/:slug</code>, tool access (purchase/subscription), and per-tool APIs under <code className="text-xs bg-muted px-1 rounded">/api/custom/mtp/tools/v1/&lt;tool-folder&gt;/</code>, see the MTP Original Tools Guide and Implementation Plan.
             </CardDescription>
           </CardHeader>
         </Card>
       </div>
     </div>
+    </ToolAccessGate>
   );
 };
 

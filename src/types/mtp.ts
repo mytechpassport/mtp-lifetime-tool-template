@@ -53,7 +53,10 @@ export type ToolCatalogItem = {
   updatedAt?: string | null;
   connected?: boolean;
   owned?: boolean;
+  is_connected?: boolean;
+  is_purchased?: boolean;
   includedInPlan?: boolean;
+  requiresAuth?: number;
 };
 
 export type WorkflowGeneratorModel = {

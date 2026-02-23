@@ -101,6 +101,9 @@ const App = () => (
                 <Route path="/changelog" element={<ChangeLog />} />
               </Route>
 
+              {/* Public tool route: for no-login tools use /use-tool (no slug in path). Login-required tools use /dashboard. */}
+              <Route path="/use-tool" element={<DashboardHome />} />
+
               {/* User Dashboard (MTP tool app) */}
               <Route
                 path="/dashboard"

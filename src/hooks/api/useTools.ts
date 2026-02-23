@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { connectTool, getTool, getTools, purchaseTool } from "@/services/api/tools";
+import { connectTool, getTool, getTools, getToolBySlug, purchaseTool } from "@/services/api/tools";
 import { getApiErrorMessage } from "@/utils/apiError";
 
 export const toolQueryKeys = {
@@ -54,6 +54,23 @@ export const useTool = (toolId: number | string) => {
     }
   }, [query.isError, query.error]);
 
+  return query;
+};
+
+export const useToolBySlug = (slug: string | null | undefined) => {
+  const query = useQuery({
+    queryKey: toolQueryKeys.bySlug(slug ?? ""),
+    queryFn: async () => {
+      const response = await getToolBySlug(slug!);
+      return response.data;
+    },
+    enabled: Boolean(slug?.trim()),
+    retry: (failureCount, error: unknown) => {
+      const msg = String((error as { message?: string })?.message ?? "");
+      if (msg.includes("404") || msg.includes("not found")) return false;
+      return failureCount < 2;
+    },
+  });
   return query;
 };
 

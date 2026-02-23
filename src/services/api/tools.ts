@@ -75,9 +75,15 @@ const normalizeTool = (tool: Record<string, unknown>): ToolCatalogItem => ({
   })(),
   createdAt: (tool.createdAt ?? tool.created_at ?? null) as string | null,
   updatedAt: (tool.updatedAt ?? tool.updated_at ?? null) as string | null,
-  connected: toBool(tool.connected),
-  owned: toBool(tool.owned),
+  connected: toBool(tool.is_connected ?? tool.connected),
+  owned: toBool(tool.is_purchased ?? tool.owned),
+  is_connected: toBool(tool.is_connected ?? tool.connected),
+  is_purchased: toBool(tool.is_purchased ?? tool.owned),
   includedInPlan: toBool(tool.includedInPlan ?? tool.included_in_plan),
+  requiresAuth:
+    tool.requiresAuth !== undefined
+      ? Number(tool.requiresAuth)
+      : Number(tool.requires_auth ?? 1),
 });
 
 export const getTools = async (params?: {
@@ -129,6 +135,16 @@ export const getTool = async (toolId: number | string) => {
     `/api/custom/mtp/tools/v1/${toolId}`
   );
 
+  const payload = response.data as ApiResponse<ToolCatalogItem>;
+  const tool = normalizeTool(payload.data as Record<string, unknown>);
+  return { ...payload, data: tool };
+};
+
+export const getToolBySlug = async (slug: string) => {
+  if (!slug || typeof slug !== "string") throw new Error("Slug is required");
+  const response = await apiClient.get<ApiResponse<ToolCatalogItem>>(
+    `/api/custom/mtp/tools/v1/by-slug/${encodeURIComponent(slug.trim())}`
+  );
   const payload = response.data as ApiResponse<ToolCatalogItem>;
   const tool = normalizeTool(payload.data as Record<string, unknown>);
   return { ...payload, data: tool };
