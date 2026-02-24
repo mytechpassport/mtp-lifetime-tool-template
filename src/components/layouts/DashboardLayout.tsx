@@ -50,6 +50,8 @@ export const DashboardLayout = ({
   profileDropdownItems,
 }: DashboardLayoutProps) => {
   const { user, logout } = useAuth();
+  const { data: creditBalanceData } = useCreditBalance();
+  const creditsBalance = creditBalanceData?.balance ?? 0;
   const { setTheme, resolvedTheme } = useTheme();
   const navigate = useNavigate();
   const [isBuyCreditsOpen, setIsBuyCreditsOpen] = useState(false);
