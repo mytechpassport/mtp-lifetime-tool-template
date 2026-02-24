@@ -11,6 +11,7 @@ export const toolQueryKeys = {
     filters ?? "all",
   ],
   detail: (toolId: number | string) => ["tools", "detail", toolId],
+  bySlug: (slug: string) => ["tools", "bySlug", slug],
 };
 
 export const useTools = (filters?: {
