@@ -4,13 +4,7 @@ import { useTheme } from "next-themes";
 import { useAuth } from "@/hooks/useAuth";
 import { useCreditBalance } from "@/hooks/api/useCredits";
 import { Button } from "@/components/ui/button";
-import {
-  CircleUser,
-  PlusCircle,
-  Sun,
-  Moon,
-  Monitor,
-} from "lucide-react";
+import { CircleUser, PlusCircle, Sun, Moon, Monitor } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -220,16 +214,6 @@ export const DashboardLayout = ({
               </ul>
             </nav>
 
-            {sidebarOpen && user && (
-              <div className="p-4 border-t border-border/40">
-                <div className="text-sm">
-                  <p className="font-medium truncate">{user.name}</p>
-                  <p className="text-xs text-muted-foreground truncate">
-                    {user.email}
-                  </p>
-                </div>
-              </div>
-            )}
           </div>
         </aside>
 
