@@ -13,7 +13,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useCreditPacks, usePurchaseCredits } from "@/hooks/api/useCredits";
 import { toast } from "sonner";
-import { Check, CreditCard, Gift, Loader2, Zap } from "lucide-react";
+import { Check, Gift, Loader2, Zap } from "lucide-react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
@@ -36,7 +36,7 @@ export const BuyCreditsModal: React.FC<BuyCreditsModalProps> = ({
 
   const selectedPack = useMemo(
     () => packs?.find((pack) => pack.id === selectedPackId) ?? packs?.[0],
-    [packs, selectedPackId]
+    [packs, selectedPackId],
   );
 
   const handlePurchase = async () => {
@@ -57,11 +57,8 @@ export const BuyCreditsModal: React.FC<BuyCreditsModalProps> = ({
       if (checkoutUrl) {
         window.location.href = checkoutUrl;
       } else {
-        toast.success("Credit purchase started.");
+        toast.error("Unable to start credit purchase.");
       }
-
-      onPurchaseComplete?.();
-      onOpenChange?.(false);
     } catch (error) {
       toast.error("Unable to start credit purchase.");
     }
@@ -70,53 +67,35 @@ export const BuyCreditsModal: React.FC<BuyCreditsModalProps> = ({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       {children ? <DialogTrigger asChild>{children}</DialogTrigger> : null}
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold flex items-center gap-2">
-            <Zap className="w-6 h-6 text-yellow-500" />
+          <DialogTitle className="text-xl font-bold flex items-center gap-2">
+            <Zap className="w-5 h-5 text-yellow-500" />
             Buy AI Credits
           </DialogTitle>
           <DialogDescription>
-            Purchase credits to unlock premium features and tools
+            Purchase credits to perform AI actions
           </DialogDescription>
         </DialogHeader>
 
-        <div className="bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 rounded-lg p-4 flex items-center gap-3">
-          <Gift className="w-6 h-6 text-amber-600" />
-          <div>
-            <p className="font-semibold text-amber-900">
-              First Purchase Bonus
-            </p>
-            <p className="text-sm text-amber-700">
-              Your first credit purchase includes an extra +10 credits.
-            </p>
-          </div>
+        <div className="bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200 rounded-lg px-3 py-2 flex items-center gap-2">
+          <Gift className="w-4 h-4 text-amber-600 flex-shrink-0" />
+          <p className="text-sm text-amber-800">
+            <span className="font-semibold">First Purchase Bonus:</span> Your
+            first credit purchase includes an extra 10 credits.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 my-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
           {isLoading &&
-            Array.from({ length: 6 }).map((_, index) => (
+            Array.from({ length: 4 }).map((_, index) => (
               <Card key={`pack-skeleton-${index}`}>
-                <CardContent className="p-6 space-y-4">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <Skeleton height={22} width={140} />
-                      <Skeleton height={14} width={180} />
-                    </div>
-                    <Skeleton height={22} width={70} />
-                  </div>
-                  <div className="text-center space-y-2">
-                    <Skeleton height={32} width={120} />
-                    <Skeleton height={12} width={60} />
-                  </div>
-                  <div className="text-center">
-                    <Skeleton height={24} width={80} />
-                    <Skeleton height={12} width={120} />
-                  </div>
-                  <div className="space-y-2">
-                    <Skeleton height={14} width="80%" />
-                    <Skeleton height={14} width="70%" />
-                    <Skeleton height={14} width="60%" />
+                <CardContent className="p-3">
+                  <div className="flex items-center justify-between gap-4">
+                    <Skeleton height={20} width={100} />
+                    <Skeleton height={20} width={60} />
+                    <Skeleton height={20} width={80} />
+                    <Skeleton height={20} width={70} />
                   </div>
                 </CardContent>
               </Card>
@@ -128,62 +107,56 @@ export const BuyCreditsModal: React.FC<BuyCreditsModalProps> = ({
                 key={pack.id}
                 className={`cursor-pointer transition-all ${
                   selectedPack?.id === pack.id
-                    ? "ring-2 ring-primary shadow-lg"
-                    : "hover:shadow-md"
+                    ? "ring-2 ring-primary shadow-md"
+                    : "hover:shadow-sm"
                 }`}
                 onClick={() => setSelectedPackId(pack.id)}
               >
-                <CardContent className="p-4 space-y-4">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      {/* <h3 className="text-xl font-bold">
-                        {pack.credits} Credits
-                      </h3> */}
-                     
-                    </div>
-                    {pack.bonusCredits ? (
-                      <Badge className="bg-emerald-500 text-white">
-                        +{pack.bonusCredits} bonus
-                      </Badge>
-                    ) : null}
-                  </div>
-
-                  <div className="text-center space-y-2">
-                    <div className="text-3xl font-bold">
-                      {pack.credits}
+                <CardContent className="p-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <span className="text-lg font-bold">
+                        {pack.credits}
+                        {pack.bonusCredits ? (
+                          <span className="text-sm font-medium text-emerald-600 ml-1">
+                            +{pack.bonusCredits}
+                          </span>
+                        ) : null}
+                      </span>
+                      <span className="text-sm text-muted-foreground">
+                        credits
+                      </span>
                       {pack.bonusCredits ? (
-                        <span className="text-lg text-emerald-600">
-                          +{pack.bonusCredits}
-                        </span>
+                        <Badge className="bg-emerald-500 text-white text-xs">
+                          +{pack.bonusCredits} bonus
+                        </Badge>
                       ) : null}
                     </div>
-                    <p className="text-sm text-muted-foreground">Credits</p>
-                  </div>
-
-                  <div className="text-center">
-                    <div className="text-2xl font-bold">
-                      ${(pack.price / 100).toFixed(2)}
+                    <div className="flex items-center gap-4 flex-shrink-0">
+                      <span className="text-xs text-muted-foreground">
+                        ${(pack.price / 100 / pack.credits).toFixed(2)}/credit
+                      </span>
+                      <span className="text-base font-bold">
+                        ${(pack.price / 100).toFixed(2)}
+                      </span>
                     </div>
-                    <p className="text-sm text-muted-foreground">
-                      ${(pack.price / 100 / pack.credits).toFixed(2)} per credit
-                    </p>
                   </div>
-
-                
                 </CardContent>
               </Card>
             ))}
         </div>
-  <div className="space-y-2">
-                    <div className="flex items-center gap-2 text-sm">
-                      <Check className="w-4 h-4 text-green-500" />
-                      Use across all MTP lifetime tools
-                    </div>
-                    <div className="flex items-center gap-2 text-sm">
-                      <Check className="w-4 h-4 text-green-500" />
-                      No expiration
-                    </div>
-                  </div>
+
+        <div className="flex items-center gap-4 text-xs text-muted-foreground">
+          <div className="flex items-center gap-1">
+            <Check className="w-3 h-3 text-green-500" />
+            Use across all MTP lifetime tools
+          </div>
+          <div className="flex items-center gap-1">
+            <Check className="w-3 h-3 text-green-500" />
+            No expiration
+          </div>
+        </div>
+
         <DialogFooter>
           <Button
             variant="outline"
@@ -194,7 +167,7 @@ export const BuyCreditsModal: React.FC<BuyCreditsModalProps> = ({
           </Button>
           <Button
             onClick={handlePurchase}
-            className="min-w-[220px]"
+            className="min-w-[200px]"
             disabled={!selectedPack || purchaseCredits.isPending}
           >
             {purchaseCredits.isPending && (
