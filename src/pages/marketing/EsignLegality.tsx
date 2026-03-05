@@ -125,7 +125,7 @@ const EsignLegality = () => {
         MyTechPassport looks forward to being your eSignature solution and
         providing you with the most user friendly platform available.
       </p>
-      <div className="max-w-lg mx-auto mt-14 space-y-8">
+      <div className="mx-auto mt-12 mb-2 w-full rounded-[15px] bg-muted/20 py-6 font-sans">
         <div>
           <h3 className="text-lg font-semibold mb-1 font-sans">
             My Tech Passport Terms of Service
