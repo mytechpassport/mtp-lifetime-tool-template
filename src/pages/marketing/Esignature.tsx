@@ -1,9 +1,17 @@
+import { PageSeo } from "@/components/seo/PageSeo";
+
 const Esignature = () => {
   return (
     <div
       id="page-container"
       className="max-w-2xl mx-auto px-4 py-14 md:py-20 font-sans text-base text-foreground"
     >
+      <PageSeo
+        title="MyTechPassport E-Signature — Secure & Legally Binding Digital Signatures"
+        description="Discover MyTechPassport E-Signature — the secure, efficient, and legally compliant digital signature solution. Sign documents digitally with top-notch security and full legal compliance."
+        canonical="/electronic-signature"
+        keywords="electronic signature, e-signature, digital signature, legally binding signatures, secure document signing"
+      />
       <h1 className="text-3xl md:text-4xl font-bold mb-8 tracking-tight text-center font-sans">
         MyTechPassport E-Signature
       </h1>

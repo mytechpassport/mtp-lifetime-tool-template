@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { PageSeo } from "@/components/seo/PageSeo";
 
 const listCommon =
   "list-disc pl-6 mb-5 space-y-2 font-sans text-base text-foreground";
@@ -19,14 +20,19 @@ const italic = "italic";
 const EsignTerms = () => {
   return (
     <div id="page-container" className={container}>
-      <h1 className={mainTitle}>MyTechPassport E-Sign Terms of Service</h1>
+      <PageSeo
+        title="E-Sign Terms of Service — MyTechPassport"
+        description="Read the MyTechPassport E-Sign Terms of Service. Governs access and use of our electronic signature, forms, and fax services. Includes subscription, payment, privacy, and data transfer terms."
+        canonical="/electronic-signature/terms"
+      />
+      <h1 className={mainTitle}>My Tech Passport E-Sign Terms of Service</h1>
       <div className="mb-8 text-center">
-        <div className={subSubHeading}>MyTechPassport Inc.</div>
+        <div className={subSubHeading}>My Tech Passport Inc.</div>
         <div className={dateMeta}>
-          <span className={bold}>Posted:</span> May 9, 2025
+          <span className={bold}>Posted:</span> February 01 2026
         </div>
         <div className={dateMeta}>
-          <span className={bold}>Effective as of:</span> May 9, 2025
+          <span className={bold}>Effective as of:</span> February 01 2026
         </div>
       </div>
       {/* Introduction */}
@@ -1167,9 +1173,9 @@ const EsignTerms = () => {
       </ul>
 
       {/* Footer Links */}
-      <div className="mx-auto mt-12 mb-2 w-full max-w-lg rounded-[15px] bg-muted/20 p-6 text-center font-sans">
+      <div className="mx-auto mt-12 mb-2 w-full rounded-[15px] bg-muted/20 py-6 font-sans">
         <h3 className="mb-2 mt-4 text-lg font-semibold tracking-tight font-sans">
-          MyTechPassport Terms of Service
+          My Tech Passport Terms of Service
         </h3>
         <div className="mb-5">
           <Link
@@ -1213,7 +1219,7 @@ const EsignTerms = () => {
           </Link>
         </div>
         <h3 className="mb-2 mt-4 text-lg font-semibold tracking-tight font-sans">
-          MyTechPassport E-sign Terms of Use
+          My Tech Passport E-sign Terms of Use
         </h3>
         <div className="mb-5">
           <Link
@@ -1224,7 +1230,7 @@ const EsignTerms = () => {
           </Link>
         </div>
         <h3 className="mb-2 mt-4 text-lg font-semibold tracking-tight font-sans">
-          MyTechPassport E-sign Legality Statement
+          My Tech Passport E-sign Legality Statement
         </h3>
         <div>
           <Link

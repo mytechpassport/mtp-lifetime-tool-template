@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { PageSeo } from "@/components/seo/PageSeo";
 
 const DataProcessingAgreement = () => {
   return (
@@ -6,6 +7,11 @@ const DataProcessingAgreement = () => {
       id="page-container"
       className="max-w-2xl mx-auto px-4 py-14 md:py-20 font-sans text-base text-foreground"
     >
+      <PageSeo
+        title="Data Processing Agreement"
+        description="Review the MyTechPassport Data Processing Agreement (DPA). Understand how we process personal data in compliance with GDPR, UK GDPR, and the Swiss Federal Act on Data Protection."
+        canonical="/data-processing-agreement"
+      />
       <h1 className="text-3xl md:text-4xl font-bold mb-8 tracking-tight text-center">
         Data Processing Agreement
       </h1>
@@ -420,9 +426,9 @@ const DataProcessingAgreement = () => {
         </ul>
       </div>
 
-      <div className="mx-auto mt-12 mb-2 w-full max-w-lg rounded-[15px] bg-muted/20 p-6 text-center">
+      <div className="mx-auto mt-12 mb-2 w-full rounded-[15px] bg-muted/20 py-6">
         <h3 className="mb-2 mt-4 text-lg font-semibold tracking-tight">
-          MyTechPassport Terms of Service
+          My Tech Passport Terms of Service
         </h3>
         <div className="mb-5">
           <Link
@@ -466,7 +472,7 @@ const DataProcessingAgreement = () => {
           </Link>
         </div>
         <h3 className="mb-2 mt-4 text-lg font-semibold tracking-tight">
-          MyTechPassport E-sign Terms of Use
+          My Tech Passport E-sign Terms of Use
         </h3>
         <div className="mb-5">
           <Link
@@ -477,7 +483,7 @@ const DataProcessingAgreement = () => {
           </Link>
         </div>
         <h3 className="mb-2 mt-4 text-lg font-semibold tracking-tight">
-          MyTechPassport E-sign Legality Statement
+          My Tech Passport E-sign Legality Statement
         </h3>
         <div>
           <Link

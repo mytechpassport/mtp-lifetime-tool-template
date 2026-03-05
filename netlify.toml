@@ -1,3 +1,41 @@
+# Netlify configuration for MTP Lifetime Tool
+#
+# SSG + SPA split routing strategy:
+#   - Pre-rendered public pages (blog, esign, marketing) are served as real
+#     HTML files from dist/. Netlify serves these directly via file-based
+#     routing, which takes precedence over redirect rules.
+#   - SPA-only routes (/dashboard/*, /auth, etc.) fall back to /index.html
+#     so React Router handles them client-side.
+#
+# IMPORTANT: File-based routes take precedence over redirect rules on Netlify,
+# so pre-rendered pages at dist/blog/slug/index.html are served automatically.
+# The SPA fallback below only fires when no matching file exists.
+
+# Dashboard (protected, SPA only)
+[[redirects]]
+  from = "/dashboard"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/dashboard/*"
+  to = "/index.html"
+  status = 200
+
+# Auth pages (SPA only)
+[[redirects]]
+  from = "/auth"
+  to = "/index.html"
+  status = 200
+
+# Third-party callbacks (SPA only)
+[[redirects]]
+  from = "/third-party/*"
+  to = "/index.html"
+  status = 200
+
+# Catch-all fallback: only fires when no matching file exists in dist/.
+# Handles any route not explicitly pre-rendered (e.g. 404 flows to NotFound).
 [[redirects]]
   from = "/*"
   to = "/index.html"

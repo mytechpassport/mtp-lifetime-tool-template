@@ -7,6 +7,10 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import UserAuth from "./pages/UserAuth";
 // import VendorAuth from "./pages/VendorAuth"; // Vendor auth kept for same backend; routes commented out (user-only tools)
+import AboutUs from "./pages/marketing/AboutUs";
+import BecomeAVendor from "./pages/marketing/BecomeAVendor";
+import Blog from "./pages/marketing/Blog";
+import BlogDetail from "./pages/marketing/BlogDetail";
 import NotFound from "./pages/NotFound";
 
 // User Dashboard
@@ -67,6 +71,11 @@ const App = () => (
 
               {/* Marketing / Legal */}
               <Route element={<MarketingPageLayout />}>
+                <Route path="/about" element={<AboutUs />} />
+                <Route path="/become-a-vendor" element={<BecomeAVendor />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/blog/:slug" element={<BlogDetail />} />
+
                 <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route
                   path="/acceptable-use-policy"

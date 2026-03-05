@@ -1,12 +1,19 @@
+import { PageSeo } from "@/components/seo/PageSeo";
+
 const PrivacyPolicy = () => (
   <div className="max-w-2xl mx-auto px-4 py-14 md:py-20 font-sans text-base text-foreground">
+    <PageSeo
+      title="Privacy Policy"
+      description="Read MyTechPassport's Privacy Policy to understand how we collect, use, and protect your personal information when you use our business automation platform."
+      canonical="/privacy-policy"
+    />
     <h1 className="text-3xl md:text-4xl font-bold mb-8 tracking-tight text-center">
       PRIVACY POLICY
     </h1>
     <div className="mb-8 text-center">
-      <div className="font-semibold text-lg mb-1">MyTechPassport Inc.</div>
+      <div className="font-semibold text-lg mb-1">My Tech Passport Inc.</div>
       <div className="text-muted-foreground">
-        <span className="font-semibold">Effective Date:</span> July 01 2024
+        <span className="font-semibold">Effective Date:</span> February 01 2026
       </div>
     </div>
     {/* 1. Introduction */}
@@ -14,7 +21,7 @@ const PrivacyPolicy = () => (
       1. Introduction
     </h2>
     <p className="mb-5">
-      Welcome to MyTechPassport Inc. (
+      Welcome to My Tech Passport Inc. (
       <span className="italic">"Company", "we", "our", "us"</span>)! We are
       committed to protecting your personal information and your right to
       privacy. If you have any questions or concerns about this privacy notice

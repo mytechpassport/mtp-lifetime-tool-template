@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { PageSeo } from "@/components/seo/PageSeo";
 
 const TermsOfService = () => {
   return (
@@ -6,13 +7,19 @@ const TermsOfService = () => {
       id="page-container"
       className="max-w-2xl mx-auto px-4 py-14 md:py-20 font-sans text-base text-foreground"
     >
+      <PageSeo
+        title="Terms of Service"
+        description="Read the MyTechPassport Terms of Service governing access to our business automation, workflow, e-signature, and marketplace platform services."
+        canonical="/terms-of-service"
+      />
       <h1 className="text-3xl md:text-4xl font-bold mb-8 tracking-tight text-center">
         TERMS OF SERVICE
       </h1>
       <div className="mb-8 text-center">
-        <div className="font-semibold text-lg mb-1">MyTechPassport Inc.</div>
+        <div className="font-semibold text-lg mb-1">My Tech Passport Inc.</div>
         <div className="text-muted-foreground">
-          <span className="font-semibold">Effective Date:</span> July 01 2024
+          <span className="font-semibold">Effective Date:</span> February 01
+          2026
         </div>
       </div>
 
@@ -154,7 +161,7 @@ const TermsOfService = () => {
           to="/electronic-signature/terms/"
           className="text-blue-700 underline hover:text-blue-900 transition"
         >
-          MyTechPassport E-sign Terms of Service
+          My Tech Passport E-sign Terms of Service
         </Link>
         .
       </p>
@@ -175,9 +182,9 @@ const TermsOfService = () => {
         Federal Act on Data Protection.
       </p>
 
-      <div className="mx-auto mt-12 mb-2 w-full max-w-lg rounded-[15px] bg-muted/20 p-6 text-center font-sans">
+      <div className="mx-auto mt-12 mb-2 w-full rounded-[15px] bg-muted/20 py-6 font-sans">
         <h3 className="mb-2 mt-4 text-lg font-semibold tracking-tight font-sans">
-          MyTechPassport Terms of Service
+          My Tech Passport Terms of Service
         </h3>
         <div className="mb-5">
           <Link
@@ -221,7 +228,7 @@ const TermsOfService = () => {
           </Link>
         </div>
         <h3 className="mb-2 mt-4 text-lg font-semibold tracking-tight font-sans">
-          MyTechPassport E-sign Terms of Use
+          My Tech Passport E-sign Terms of Use
         </h3>
         <div className="mb-5">
           <Link
@@ -232,7 +239,7 @@ const TermsOfService = () => {
           </Link>
         </div>
         <h3 className="mb-2 mt-4 text-lg font-semibold tracking-tight font-sans">
-          MyTechPassport E-sign Legality Statement
+          My Tech Passport E-sign Legality Statement
         </h3>
         <div>
           <Link

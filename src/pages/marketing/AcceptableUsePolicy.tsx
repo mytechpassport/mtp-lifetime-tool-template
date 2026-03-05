@@ -1,8 +1,14 @@
 import { Link } from "react-router-dom";
+import { PageSeo } from "@/components/seo/PageSeo";
 
 const AcceptableUsePolicy = () => {
   return (
     <div className="max-w-2xl mx-auto px-4 py-14 md:py-20 font-sans text-base text-foreground">
+      <PageSeo
+        title="Acceptable Use Policy"
+        description="Read the MyTechPassport Acceptable Use Policy. Understand permitted uses of our platform and the responsibilities of users when using our automation and e-signature services."
+        canonical="/acceptable-use-policy"
+      />
       <h1 className="text-3xl md:text-4xl font-bold mb-8 tracking-tight text-center">
         Acceptable Use Policy
       </h1>
@@ -80,9 +86,9 @@ const AcceptableUsePolicy = () => {
         set forth in the applicable agreement between you and MyTechPassport.
       </p>
 
-      <div className="mx-auto mt-12 mb-2 w-full max-w-lg rounded-[15px] bg-muted/20 p-6 text-center font-sans">
+      <div className="mx-auto mt-12 mb-2 w-full rounded-[15px] bg-muted/20 py-6 font-sans">
         <h3 className="mb-2 mt-4 text-lg font-semibold tracking-tight font-sans">
-          MyTechPassport Terms of Service
+          My Tech Passport Terms of Service
         </h3>
         <div className="mb-5">
           <Link
@@ -126,7 +132,7 @@ const AcceptableUsePolicy = () => {
           </Link>
         </div>
         <h3 className="mb-2 mt-4 text-lg font-semibold tracking-tight font-sans">
-          MyTechPassport E-sign Terms of Use
+          My Tech Passport E-sign Terms of Use
         </h3>
         <div className="mb-5">
           <Link
@@ -137,7 +143,7 @@ const AcceptableUsePolicy = () => {
           </Link>
         </div>
         <h3 className="mb-2 mt-4 text-lg font-semibold tracking-tight font-sans">
-          MyTechPassport E-sign Legality Statement
+          My Tech Passport E-sign Legality Statement
         </h3>
         <div>
           <Link

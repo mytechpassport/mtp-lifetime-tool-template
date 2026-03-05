@@ -7,6 +7,7 @@ import {
   Rocket,
   RefreshCw,
 } from "lucide-react";
+import { PageSeo } from "@/components/seo/PageSeo";
 
 type ChangeType = "feature" | "improvement" | "fix";
 
@@ -83,6 +84,12 @@ const ChangeLog = () => {
 
   return (
     <div className="min-h-screen py-12 md:py-20 relative animate-fade-in">
+      <PageSeo
+        title="Changelog — Platform Updates & New Features"
+        description="Stay up to date with the latest features, improvements, and bug fixes on MyTechPassport. See what's new in our automation and workflow platform."
+        canonical="/changelog"
+        keywords="MyTechPassport changelog, platform updates, new features, product releases"
+      />
       {/* Background Decor */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
         <div className="absolute top-[10%] right-[10%] w-96 h-96 bg-primary/5 rounded-full blur-3xl opacity-50" />

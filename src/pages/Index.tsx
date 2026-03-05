@@ -1,3 +1,4 @@
+import { PageSeo } from "@/components/seo/PageSeo";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Navbar } from "@/components/marketing/Navbar";
@@ -24,6 +25,12 @@ const Index = () => {
 
   return (
     <div className="min-h-screen">
+      <PageSeo
+        title="Mtp Lifetime Tool Template - MyTechPassport"
+        description="Mtp Lifetime Tool Template by MyTechPassport. Automate your workflow instantly."
+        canonical="/"
+      />
+
       <Navbar />
       <main>
         <Hero />

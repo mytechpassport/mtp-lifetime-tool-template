@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { PageSeo } from "@/components/seo/PageSeo";
 
 const ServiceSpecificTerms = () => {
   return (
@@ -6,16 +7,22 @@ const ServiceSpecificTerms = () => {
       id="page-container"
       className="max-w-2xl mx-auto px-4 py-14 md:py-20 font-sans text-base text-foreground"
     >
+      <PageSeo
+        title="Service Specific Terms"
+        description="Read the MyTechPassport Service Specific Terms for our E-Sign, API, and third-party integration services. Covers authentication, audit trails, transactions, API keys, and rate limits."
+        canonical="/service-specific-terms"
+      />
       <h1 className="text-3xl md:text-4xl font-bold mb-8 tracking-tight text-center">
         Service Specific Terms
       </h1>
       <div className="mb-8 text-center">
-        <div className="font-semibold text-lg mb-1">MyTechPassport Inc.</div>
+        <div className="font-semibold text-lg mb-1">My Tech Passport Inc.</div>
         <div className="text-muted-foreground">
-          <span className="font-semibold">Posted:</span> May 9, 2025
+          <span className="font-semibold">Posted:</span> February 01 2026
         </div>
         <div className="text-muted-foreground">
-          <span className="font-semibold">Effective as of:</span> May 9, 2025
+          <span className="font-semibold">Effective as of:</span> February 01
+          2026
         </div>
       </div>
       <div className="mb-5">
@@ -221,9 +228,9 @@ const ServiceSpecificTerms = () => {
         </li>
       </ul>
 
-      <div className="mx-auto mt-12 mb-2 w-full max-w-lg rounded-[15px] bg-muted/20 p-6 text-center font-sans">
+      <div className="mx-auto mt-12 mb-2 w-full rounded-[15px] bg-muted/20 py-6 font-sans">
         <h3 className="mb-2 mt-4 text-lg font-semibold tracking-tight font-sans">
-          MyTechPassport Terms of Service
+          My Tech Passport Terms of Service
         </h3>
         <div className="mb-5">
           <Link
@@ -267,7 +274,7 @@ const ServiceSpecificTerms = () => {
           </Link>
         </div>
         <h3 className="mb-2 mt-4 text-lg font-semibold tracking-tight font-sans">
-          MyTechPassport E-sign Terms of Use
+          My Tech Passport E-sign Terms of Use
         </h3>
         <div className="mb-5">
           <Link
@@ -278,7 +285,7 @@ const ServiceSpecificTerms = () => {
           </Link>
         </div>
         <h3 className="mb-2 mt-4 text-lg font-semibold tracking-tight font-sans">
-          MyTechPassport E-sign Legality Statement
+          My Tech Passport E-sign Legality Statement
         </h3>
         <div>
           <Link

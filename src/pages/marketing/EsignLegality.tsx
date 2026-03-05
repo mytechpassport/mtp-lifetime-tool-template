@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { PageSeo } from "@/components/seo/PageSeo";
 
 const EsignLegality = () => {
   return (
@@ -6,8 +7,14 @@ const EsignLegality = () => {
       id="page-container"
       className="max-w-2xl mx-auto px-4 py-14 md:py-20 font-sans text-base text-foreground"
     >
+      <PageSeo
+        title="E-Signature Legality Statement — MyTechPassport"
+        description="MyTechPassport e-signatures are legally binding under US ESIGN Act, UETA, and EU eIDAS regulations. Learn about our signature authentication, audit trails, and document security."
+        canonical="/electronic-signature/legality-statement"
+        keywords="e-signature legality, ESIGN Act, eIDAS compliance, digital signature legal, electronic signature law"
+      />
       <h1 className="text-3xl md:text-4xl font-bold mb-8 tracking-tight text-center font-sans">
-        MyTechPassport E-sign Legality Statement
+        My Tech Passport E-sign Legality Statement
       </h1>
       <h2 className="text-2xl font-semibold mt-10 mb-6 tracking-tight font-sans">
         ELECTRONIC SIGNATURES ARE LEGAL‍
@@ -118,10 +125,10 @@ const EsignLegality = () => {
         MyTechPassport looks forward to being your eSignature solution and
         providing you with the most user friendly platform available.
       </p>
-      <div className="max-w-lg mx-auto text-center mt-14 space-y-8">
+      <div className="max-w-lg mx-auto mt-14 space-y-8">
         <div>
           <h3 className="text-lg font-semibold mb-1 font-sans">
-            MyTechPassport Terms of Service
+            My Tech Passport Terms of Service
           </h3>
           <Link
             to="/terms-of-service/"
@@ -176,7 +183,7 @@ const EsignLegality = () => {
         </div>
         <div>
           <h3 className="text-lg font-semibold mb-1 font-sans">
-            MyTechPassport E-sign Legality Statement
+            My Tech Passport E-sign Legality Statement
           </h3>
           <Link
             to="/electronic-signature/legality-statement/"
