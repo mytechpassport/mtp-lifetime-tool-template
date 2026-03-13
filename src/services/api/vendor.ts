@@ -6,9 +6,9 @@ export type VendorSoftware = {
   name: string;
   description: string;
   category: string;
-  pricingModel: "free" | "lifetime" | "subscription" | "trial" | "tiered";
+  pricingModel: "free" | "lifetime" | "subscription";
   lifetimePrice?: number | null;
-  tieredPricing?: Array<{ tier: string; price: number; features: string[] }>;
+  pricingTiers?: Array<{ tier: string; name: string; price: number; interval: string; features: string[] }>;
   features?: string[];
   websiteUrl?: string | null;
   loginUrl?: string | null;
@@ -37,6 +37,9 @@ export type VendorIntegration = {
   clientSecret?: string | null;
   authUrl?: string | null;
   tokenUrl?: string | null;
+  userinfoUrl?: string | null;
+  jwksUrl?: string | null;
+  scopes?: string | null;
   webhookUrl?: string | null;
   webhookSecret?: string | null;
   provisioningUrl?: string | null;
@@ -90,7 +93,7 @@ const normalizeVendorSoftware = (
     item.lifetimePrice !== undefined
       ? (item.lifetimePrice as number | null)
       : (item.lifetime_price as number | null),
-  tieredPricing: parseJsonArray(item.tieredPricing ?? item.tiered_pricing_json),
+  pricingTiers: parseJsonArray(item.pricingTiers ?? item.pricing_tiers_json),
   features: parseJsonArray(item.features ?? item.features_json),
   websiteUrl: (item.websiteUrl ?? item.website_url ?? null) as string | null,
   loginUrl: (item.loginUrl ?? item.login_url ?? null) as string | null,
@@ -185,7 +188,7 @@ const serializeVendorSoftware = (payload: Partial<VendorSoftware>) => ({
   category: payload.category,
   pricing_model: payload.pricingModel,
   lifetime_price: payload.lifetimePrice,
-  tiered_pricing_json: payload.tieredPricing,
+  pricing_tiers_json: payload.pricingTiers,
   features_json: payload.features,
   website_url: payload.websiteUrl,
   login_url: payload.loginUrl,

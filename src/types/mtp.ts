@@ -41,7 +41,7 @@ export type ToolCatalogItem = {
   toolType: ToolType | string;
   pricingModel: string;
   lifetimePrice?: number | null;
-  tieredPricing?: Array<{ tier: string; price: number; features: string[] }> | null;
+  pricingTiers?: Array<{ tier: string; name: string; price: number; interval: string; features: string[] }> | null;
   isListed: boolean;
   isEnabled: boolean;
   externalUrl?: string | null;

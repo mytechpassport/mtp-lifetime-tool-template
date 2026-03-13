@@ -8,18 +8,18 @@ export type ToolCatalogResponse = {
   categories?: string[];
 };
 
-const parseTieredPricing = (
+const parsePricingTiers = (
   value: unknown
-): Array<{ tier: string; price: number; features: string[] }> | null => {
+): Array<{ tier: string; name: string; price: number; interval: string; features: string[] }> | null => {
   if (!value) return null;
   if (Array.isArray(value)) {
-    return value as Array<{ tier: string; price: number; features: string[] }>;
+    return value as Array<{ tier: string; name: string; price: number; interval: string; features: string[] }>;
   }
   if (typeof value === "string") {
     try {
       const parsed = JSON.parse(value);
       return Array.isArray(parsed)
-        ? (parsed as Array<{ tier: string; price: number; features: string[] }>)
+        ? (parsed as Array<{ tier: string; name: string; price: number; interval: string; features: string[] }>)
         : null;
     } catch (error) {
       return null;
@@ -49,8 +49,8 @@ const normalizeTool = (tool: Record<string, unknown>): ToolCatalogItem => ({
     if (raw === null || raw === undefined) return null;
     return Number(raw);
   })(),
-  tieredPricing: parseTieredPricing(
-    tool.tieredPricing ?? tool.tiered_pricing_json ?? null
+  pricingTiers: parsePricingTiers(
+    tool.pricingTiers ?? tool.pricing_tiers_json ?? null
   ),
   isListed:
     tool.isListed !== undefined ? toBool(tool.isListed) : toBool(tool.is_listed),
