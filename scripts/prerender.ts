@@ -262,7 +262,7 @@ async function prerender(): Promise<void> {
       console.log(`  ✅ ${route}`);
       success++;
     } catch (err) {
-      console.error(`  ❌ ${route} — ${(err as Error).message}`);
+      console.error(`  ❌ ${route} - ${(err as Error).message}`);
       failed++;
     }
   }

@@ -7,8 +7,8 @@ const Esignature = () => {
       className="max-w-2xl mx-auto px-4 py-14 md:py-20 font-sans text-base text-foreground"
     >
       <PageSeo
-        title="MyTechPassport E-Signature — Secure & Legally Binding Digital Signatures"
-        description="Discover MyTechPassport E-Signature — the secure, efficient, and legally compliant digital signature solution. Sign documents digitally with top-notch security and full legal compliance."
+        title="MyTechPassport E-Signature - Secure & Legally Binding Digital Signatures"
+        description="Discover MyTechPassport E-Signature - the secure, efficient, and legally compliant digital signature solution. Sign documents digitally with top-notch security and full legal compliance."
         canonical="/electronic-signature"
         keywords="electronic signature, e-signature, digital signature, legally binding signatures, secure document signing"
       />

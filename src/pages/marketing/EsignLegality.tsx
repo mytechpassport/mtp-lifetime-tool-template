@@ -8,7 +8,7 @@ const EsignLegality = () => {
       className="max-w-2xl mx-auto px-4 py-14 md:py-20 font-sans text-base text-foreground"
     >
       <PageSeo
-        title="E-Signature Legality Statement — MyTechPassport"
+        title="E-Signature Legality Statement - MyTechPassport"
         description="MyTechPassport e-signatures are legally binding under US ESIGN Act, UETA, and EU eIDAS regulations. Learn about our signature authentication, audit trails, and document security."
         canonical="/electronic-signature/legality-statement"
         keywords="e-signature legality, ESIGN Act, eIDAS compliance, digital signature legal, electronic signature law"

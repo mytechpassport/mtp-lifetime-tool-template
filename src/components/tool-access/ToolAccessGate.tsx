@@ -40,7 +40,7 @@ export function ToolAccessGate({
   const { data: tool, isLoading: isToolLoading, isError } = useToolBySlug(slug);
   const [bannerDismissed, setBannerDismissed] = useState(false);
 
-  // Subscription plan features — only fetched when user is logged in (handled inside the hook)
+  // Subscription plan features - only fetched when user is logged in (handled inside the hook)
   const { user } = useAuth();
   const isLoggedIn = Boolean(user);
   const subscriptionQuery = useSubscription();
@@ -79,7 +79,7 @@ export function ToolAccessGate({
     );
   }
 
-  // ── Plan-feature access check (dynamic — reflects admin-configured plan features) ──
+  // ── Plan-feature access check (dynamic - reflects admin-configured plan features) ──
   const planData = subscriptionQuery.data?.data ?? null;
   const toolType = String(tool.toolType ?? "").toLowerCase();
   const accessViaPlanFeatures =

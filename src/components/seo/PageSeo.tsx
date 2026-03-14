@@ -14,7 +14,7 @@ interface PageSeoProps {
   description: string;
   /** Canonical path, e.g. "/blog/save-10-hours" (no trailing slash needed) */
   canonical?: string;
-  /** OG image URL — defaults to site-wide og-image.png */
+  /** OG image URL - defaults to site-wide og-image.png */
   ogImage?: string;
   /** article for blog posts, website for everything else */
   ogType?: "website" | "article";
@@ -31,7 +31,7 @@ interface PageSeoProps {
 }
 
 /**
- * PageSeo — drop this at the top of any public page component.
+ * PageSeo - drop this at the top of any public page component.
  * Works both in the browser (client routing) and during SSG
  * prerender via react-helmet-async's HelmetProvider context.
  */

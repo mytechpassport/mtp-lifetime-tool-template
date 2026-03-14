@@ -61,7 +61,7 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<UserAuth />} />
-              {/* Vendor auth routes commented out — user-only tools; VendorAuth page and backend vendor login/signup remain for reuse */}
+              {/* Vendor auth routes commented out - user-only tools; VendorAuth page and backend vendor login/signup remain for reuse */}
               {/* <Route path="/vendor/auth" element={<VendorAuth />} /> */}
               {/* <Route path="/vendor/auth/signin" element={<VendorAuth />} /> */}
               {/* <Route path="/vendor/auth/signup" element={<VendorAuth />} /> */}

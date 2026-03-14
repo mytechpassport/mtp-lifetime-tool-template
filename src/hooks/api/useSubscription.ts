@@ -12,7 +12,7 @@ export const subscriptionQueryKeys = {
 /**
  * Fetches the current user's subscription and plan features.
  * Only runs when the user is logged in.
- * Plan features (mtpToolsFree, etc.) are set by admins and checked dynamically —
+ * Plan features (mtpToolsFree, etc.) are set by admins and checked dynamically -
  * no hardcoded plan logic here so admin changes propagate automatically.
  */
 export const useSubscription = () => {
@@ -23,7 +23,7 @@ export const useSubscription = () => {
     queryFn: getCurrentSubscription,
     enabled: Boolean(user),
     retry: 1,
-    staleTime: 60_000, // 1 min — plan rarely changes mid-session
+    staleTime: 60_000, // 1 min - plan rarely changes mid-session
   });
 
   useEffect(() => {

@@ -56,7 +56,7 @@ function isSubscriptionTool(tool: ToolCatalogItem): boolean {
  * Plan features are fetched dynamically from the subscription API so admin changes propagate automatically
  * without any frontend code changes.
  *
- * Reusable across all MTP lifetime tool codebases — only `toolSlug` is tool-specific.
+ * Reusable across all MTP lifetime tool codebases - only `toolSlug` is tool-specific.
  */
 export function ToolLandingCTA({
   toolSlug,
@@ -66,11 +66,11 @@ export function ToolLandingCTA({
   const { user, loading: authLoading } = useAuth();
   const isLoggedIn = Boolean(user);
 
-  // Tool data — by-slug uses optionalAuth so works for both logged-in and anonymous users
+  // Tool data - by-slug uses optionalAuth so works for both logged-in and anonymous users
   const toolQuery = useToolBySlug(toolSlug);
   const tool = toolQuery.data ?? null;
 
-  // Subscription / plan features — only fetched when user is logged in
+  // Subscription / plan features - only fetched when user is logged in
   const subscriptionQuery = useSubscription();
   const planData = subscriptionQuery.data?.data ?? null;
 
@@ -155,7 +155,7 @@ export function ToolLandingCTA({
     if (hasAccess) return "Use Tool";
 
     // Logged in, no access yet
-    if (toolIsFree) return "Use Tool"; // $0 tool — silent credits purchase on click
+    if (toolIsFree) return "Use Tool"; // $0 tool - silent credits purchase on click
     if (isSubscription) {
       const firstTier = tool.pricingTiers?.[0];
       return firstTier
@@ -165,7 +165,7 @@ export function ToolLandingCTA({
     return `Buy Now For ${formattedPrice}`;
   };
 
-  // ── Click handler — "Use Tool" ──────────────────────────────────────────────
+  // ── Click handler - "Use Tool" ──────────────────────────────────────────────
   const handleClick = async () => {
     // Not logged in → send to dashboard (login page)
     if (!isLoggedIn) {
@@ -192,7 +192,7 @@ export function ToolLandingCTA({
       return;
     }
 
-    // No access yet — free / $0 tool: purchase silently with credits (no modal)
+    // No access yet - free / $0 tool: purchase silently with credits (no modal)
     if (toolIsFree) {
       try {
         const response = await purchaseMutation.mutateAsync({
@@ -222,7 +222,7 @@ export function ToolLandingCTA({
     setShowPurchaseModal(true);
   };
 
-  // ── Click handler — "Buy Now" (alongside Use Tool for plan-access users) ────
+  // ── Click handler - "Buy Now" (alongside Use Tool for plan-access users) ────
   const handleBuyAside = () => {
     if (!tool) return;
     if (isSubscription) {
@@ -236,7 +236,7 @@ export function ToolLandingCTA({
   const handlePurchase = async () => {
     if (!tool) return;
 
-    // Subscription purchase — card only
+    // Subscription purchase - card only
     if (isSubscription) {
       const tier = selectedTier || (tool.pricingTiers?.[0]?.tier ?? "");
       if (!tier) return;
@@ -262,7 +262,7 @@ export function ToolLandingCTA({
       return;
     }
 
-    // Lifetime purchase — check credit balance first if paying with credits
+    // Lifetime purchase - check credit balance first if paying with credits
     if (paymentMethod === "credits") {
       const balance = creditBalanceQuery.data?.balance ?? 0;
       if (balance < price) {
@@ -286,7 +286,7 @@ export function ToolLandingCTA({
         | undefined;
 
       if (checkoutUrl) {
-        // Stripe card checkout — redirect to Stripe, success handled on return
+        // Stripe card checkout - redirect to Stripe, success handled on return
         window.location.href = checkoutUrl;
         return;
       }
@@ -296,7 +296,7 @@ export function ToolLandingCTA({
         return;
       }
 
-      // Credits purchase success — close modal and go to dashboard
+      // Credits purchase success - close modal and go to dashboard
       setShowPurchaseModal(false);
       setPaymentMethod("card");
       navigate(dashboardPath);
@@ -353,7 +353,7 @@ export function ToolLandingCTA({
         </Button>
       )}
 
-      {/* ── Purchase modal — mirrors BrowseTools.tsx purchase dialog ── */}
+      {/* ── Purchase modal - mirrors BrowseTools.tsx purchase dialog ── */}
       <Dialog
         open={showPurchaseModal}
         onOpenChange={(open) => {
@@ -430,7 +430,7 @@ export function ToolLandingCTA({
               <p className="text-sm text-muted-foreground">
                 {tool?.lifetimePrice && Number(tool.lifetimePrice) > 0
                   ? `One-time payment of ${formatCurrency(Number(tool.lifetimePrice))}. Yours forever.`
-                  : "This tool is free — just confirm to activate it."}
+                  : "This tool is free - just confirm to activate it."}
               </p>
               {tool?.lifetimePrice && Number(tool.lifetimePrice) > 0 && (
                 <RadioGroup

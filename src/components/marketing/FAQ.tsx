@@ -19,7 +19,7 @@ const faqs = [
   {
     question: "What's the difference between a bundle and a workflow?",
     answer:
-      "A workflow is a single automation blueprint that connects your tools to execute a specific task—like automatically emailing a new client—whereas a bundle is a curated collection of multiple workflows designed to equip an entire department, such as a 'Marketing' bundle. Think of your tools as LEGO bricks: if a workflow is the instruction sheet for building one specific model, a bundle is the complete box set containing the instructions for every model you need to build for that role.",
+      "A workflow is a single automation blueprint that connects your tools to execute a specific task-like automatically emailing a new client-whereas a bundle is a curated collection of multiple workflows designed to equip an entire department, such as a 'Marketing' bundle. Think of your tools as LEGO bricks: if a workflow is the instruction sheet for building one specific model, a bundle is the complete box set containing the instructions for every model you need to build for that role.",
   },
   {
     question: "Can I switch bundles later?",

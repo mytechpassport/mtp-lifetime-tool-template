@@ -29,7 +29,7 @@ const SESSION_EXPIRY_INDICATORS = [
   "Invalid token type",
 ] as const;
 
-/** Messages that mean "user is logged in but this action is not allowed" — do NOT treat as session expiry. */
+/** Messages that mean "user is logged in but this action is not allowed" - do NOT treat as session expiry. */
 const NOT_SESSION_EXPIRY_INDICATORS = [
   "Google Drive is not connected",
   "User mismatch",

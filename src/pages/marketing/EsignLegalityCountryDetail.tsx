@@ -30,7 +30,7 @@ export default function EsignLegalityDetail() {
           "@context": "https://schema.org",
           "@type": "WebPage",
           name: `E-Signature Legality in ${countryDisplayName}`,
-          description: `E-signature legality guide for ${countryDisplayName} — MyTechPassport`,
+          description: `E-signature legality guide for ${countryDisplayName} - MyTechPassport`,
           url: `https://mytechpassport.com/e-signature-legality/${country}`,
           publisher: {
             "@type": "Organization",

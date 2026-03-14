@@ -8,7 +8,7 @@ const bundles = [
     department: "Marketing",
     title: "Marketing Automation Bundle",
     description:
-      "Launch-ready funnel with CRM, email marketing, landing pages, and analytics—all sharing data instantly.",
+      "Launch-ready funnel with CRM, email marketing, landing pages, and analytics-all sharing data instantly.",
     tools: ["CRM", "Email Platform", "Landing Pages", "Analytics"],
     workflows: "12 pre-connected workflows",
     savings: "Save $200/month vs. separate tools",

@@ -29,9 +29,9 @@ npm i
 npm run dev
 ```
 
-- **Landing**: `/` — template hero + CTA.
-- **Auth**: `/auth` — user login/signup; `/vendor/auth` — vendor auth (same backend; vendor dashboard routes are not in this template).
-- **Dashboard**: `/dashboard` — user app shell; replace the Dashboard home content with your tool UI.
+- **Landing**: `/` - template hero + CTA.
+- **Auth**: `/auth` - user login/signup; `/vendor/auth` - vendor auth (same backend; vendor dashboard routes are not in this template).
+- **Dashboard**: `/dashboard` - user app shell; replace the Dashboard home content with your tool UI.
 
 ## Building your tool
 

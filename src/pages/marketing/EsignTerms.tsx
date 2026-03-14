@@ -21,7 +21,7 @@ const EsignTerms = () => {
   return (
     <div id="page-container" className={container}>
       <PageSeo
-        title="E-Sign Terms of Service — MyTechPassport"
+        title="E-Sign Terms of Service - MyTechPassport"
         description="Read the MyTechPassport E-Sign Terms of Service. Governs access and use of our electronic signature, forms, and fax services. Includes subscription, payment, privacy, and data transfer terms."
         canonical="/electronic-signature/terms"
       />

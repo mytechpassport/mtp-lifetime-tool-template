@@ -6,7 +6,7 @@
  *
  * Why AuthProvider is included:
  *   Navbar calls useAuth() to conditionally show "Dashboard" vs "Login".
- *   During renderToString, all useEffect hooks are skipped — so AuthProvider
+ *   During renderToString, all useEffect hooks are skipped - so AuthProvider
  *   initializes with user=null (no API calls, no localStorage access).
  *   This gives the correct unauthenticated pre-render state for public pages.
  *
@@ -58,7 +58,7 @@ export function render(url: string): RenderResult {
       <QueryClientProvider client={queryClient}>
         {/* AuthProvider needed because Navbar calls useAuth().
             During SSR (renderToString), useEffect is skipped so
-            the auth API is never called — user initializes as null. */}
+            the auth API is never called - user initializes as null. */}
         <AuthProvider>
           <StaticRouter location={url}>
             <Routes>

@@ -78,7 +78,7 @@ const BecomeAVendor = () => {
   return (
     <div className="font-sans text-base text-foreground">
       <PageSeo
-        title="Become a Vendor — List Your Software on My Tech Passport"
+        title="Become a Vendor - List Your Software on My Tech Passport"
         description="Join the MyTechPassport vendor marketplace. List your software tool, reach thousands of businesses, earn recurring revenue, and integrate into pre-built automation workflows."
         canonical="/become-a-vendor"
         keywords="software vendor marketplace, list software tool, SaaS marketplace, sell software online, vendor programme"

@@ -56,7 +56,7 @@ export type ToolCatalogItem = {
   is_connected?: boolean;
   is_purchased?: boolean;
   includedInPlan?: boolean;
-  /** True only when user has an actual purchase or active subscription record — NOT when access comes from plan features. */
+  /** True only when user has an actual purchase or active subscription record - NOT when access comes from plan features. */
   purchasedDirectly?: boolean;
   requiresAuth?: number;
 };

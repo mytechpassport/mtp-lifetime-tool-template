@@ -27,7 +27,7 @@ const Blog = () => {
   return (
     <div className="max-w-4xl mx-auto px-4 py-14 md:py-20 font-sans text-base text-foreground">
       <PageSeo
-        title="Blog — Business Automation Guides & Product Updates"
+        title="Blog - Business Automation Guides & Product Updates"
         description="Practical guides, product updates and expert insights to help you automate your small business smarter and save hours every week."
         canonical="/blog"
         keywords="business automation blog, workflow automation guides, small business productivity, automation tips"

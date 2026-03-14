@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Wrench, BookOpen } from "lucide-react";
 
 /**
- * Dashboard home — placeholder for your MTP tool.
+ * Dashboard home - placeholder for your MTP tool.
  * Replace this page with your tool’s main UI.
  * See: MTP_ORIGINAL_TOOLS_GUIDE_AND_IMPLEMENTATION_PLAN.md for access, APIs, and tool structure.
  */

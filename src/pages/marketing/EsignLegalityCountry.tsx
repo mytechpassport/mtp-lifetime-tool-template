@@ -22,7 +22,7 @@ export default function EsignLegalityCountry() {
   return (
     <div className="legality-page font-sans text-[#1f2937] bg-white leading-relaxed">
       <PageSeo
-        title="Global E-Signature Legality Guide — 50+ Countries"
+        title="Global E-Signature Legality Guide - 50+ Countries"
         description="Comprehensive guide to e-signature legality in 50+ countries. Understand the legal framework for digital signatures in the US, EU, UK, Australia, Brazil and more."
         canonical="/e-signature-legality"
         keywords="e-signature legality by country, global digital signature law, electronic signature compliance, international e-signature guide"
@@ -114,7 +114,7 @@ export default function EsignLegalityCountry() {
             are encrypted in ISO 27001 certified data centers (Amazon S3).
           </p>
           <p className="text-[#374151] mb-4">
-            My Tech Passport E-sign is universally accessible—only an internet
+            My Tech Passport E-sign is universally accessible-only an internet
             connection and browser are required.
           </p>
         </div>

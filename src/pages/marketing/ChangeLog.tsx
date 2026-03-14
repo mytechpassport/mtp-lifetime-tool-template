@@ -85,7 +85,7 @@ const ChangeLog = () => {
   return (
     <div className="min-h-screen py-12 md:py-20 relative animate-fade-in">
       <PageSeo
-        title="Changelog — Platform Updates & New Features"
+        title="Changelog - Platform Updates & New Features"
         description="Stay up to date with the latest features, improvements, and bug fixes on MyTechPassport. See what's new in our automation and workflow platform."
         canonical="/changelog"
         keywords="MyTechPassport changelog, platform updates, new features, product releases"
