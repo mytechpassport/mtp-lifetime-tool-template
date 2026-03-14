@@ -1,172 +1,71 @@
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Check } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+
+// TODO: Replace with your tool's feature list
+const features = [
+  "Feature one",
+  "Feature two",
+  "Feature three",
+  "Feature four",
+  "Feature five",
+  "Feature six",
+  "Lifetime access",
+  "All future updates included",
+];
 
 export const Pricing = () => {
+  const navigate = useNavigate();
+
   return (
-    <section
-      id="pricing"
-      className="pt-16"
-      style={{ background: "var(--gradient-hero)" }}
-    >
+    <section className="py-16 bg-muted/20" id="pricing">
       <div className="container mx-auto px-4 lg:px-8">
-        {/* Section Header */}
-        <div className="mb-12 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-foreground sm:text-4xl lg:text-5xl">
-            Simple, Transparent Pricing
-          </h2>
-          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            Start free with 2 workflows for life. Upgrade when you're ready to
-            unlock unlimited automation.
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold mb-4">Simple, one-time pricing</h2>
+          <p className="text-muted-foreground text-lg">
+            Pay once. Use forever. No subscriptions, no renewals.
           </p>
         </div>
 
-        {/* Pricing Cards */}
-        <div className="mx-auto grid max-w-5xl gap-8 lg:grid-cols-2">
-          {/* Free Plan */}
-          <Card className="relative overflow-hidden border-2 p-8">
-            <div className="mb-6">
-              <h3 className="mb-2 text-2xl font-bold text-foreground">
-                Free Forever
-              </h3>
-              <p className="text-muted-foreground">
-                Perfect to get started and see the value
-              </p>
+        <div className="max-w-sm mx-auto">
+          <div className="rounded-2xl border-2 border-primary bg-background p-8 text-center shadow-lg">
+            <div className="mb-2 text-sm font-medium text-primary uppercase tracking-wide">
+              Lifetime Access
             </div>
-
-            <div className="mb-8">
-              <div className="flex items-baseline gap-2">
-                <span className="text-5xl font-bold text-foreground">$0</span>
-                <span className="text-muted-foreground">/month</span>
-              </div>
+            {/* TODO: Replace $0 with your tool's price. Use "Always free" for $0 tools, "One-time payment" for paid. */}
+            <div className="mb-1 text-5xl font-bold">$0</div>
+            <div className="mb-6 text-sm text-muted-foreground">
+              Always free
             </div>
-
-            <ul className="mb-8 space-y-4">
-              <li className="flex gap-3">
-                <Check className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
-                <span className="text-muted-foreground">
-                  <span className="font-semibold text-foreground">
-                    2 pre-connected workflows
-                  </span>{" "}
-                  for lifetime
-                </span>
-              </li>
-              <li className="flex gap-3">
-                <Check className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
-                <span className="text-muted-foreground">
-                  Choose your department on signup
-                </span>
-              </li>
-              <li className="flex gap-3">
-                <Check className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
-                <span className="text-muted-foreground">
-                  Access to workflow template directory
-                </span>
-              </li>
-              <li className="flex gap-3">
-                <Check className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
-                <span className="text-muted-foreground">
-                  Connect any MyTechPassport tools
-                </span>
-              </li>
-              <li className="flex gap-3 opacity-50">
-                <Check className="mt-0.5 h-5 w-5 shrink-0 text-muted-foreground" />
-                <span className="text-muted-foreground">
-                  Third-party tools
-                  {/* Third-party tools (pay per tool to add) */}
-                </span>
-              </li>
-            </ul>
-
-            <Button size="lg" variant="outline" className="w-full">
-              Get Started Free
-            </Button>
-          </Card>
-
-          {/* Paid Plan */}
-          <Card className="relative overflow-hidden border-2 border-accent p-8 shadow-xl">
-            {/* Popular Badge */}
-            <Badge className="absolute right-4 top-4 bg-accent text-accent-foreground">
-              Most Popular
-            </Badge>
-
-            <div className="mb-6">
-              <h3 className="mb-2 text-2xl font-bold text-foreground">
-                All Bundles
-              </h3>
-              <p className="text-muted-foreground">
-                Unlimited automation for your entire business
-              </p>
-            </div>
-
-            <div className="mb-8">
-              <div className="flex items-baseline gap-2">
-                <span className="text-5xl font-bold text-foreground">$99</span>
-                <span className="text-muted-foreground">/month</span>
-              </div>
-              <p className="mt-2 text-sm font-medium text-accent">
-                Save $500+/month vs. buying tools separately
-              </p>
-            </div>
-
-            <ul className="mb-8 space-y-4">
-              <li className="flex gap-3">
-                <Check className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
-                <span className="text-muted-foreground">
-                  <span className="font-semibold text-foreground">
-                    ALL department bundles
-                  </span>{" "}
-                  included
-                </span>
-              </li>
-              <li className="flex gap-3">
-                <Check className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
-                <span className="text-muted-foreground">
-                  <span className="font-semibold text-foreground">
-                    Unlimited workflows
-                  </span>{" "}
-                  with one-click connection
-                </span>
-              </li>
-              <li className="flex gap-3">
-                <Check className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
-                <span className="text-muted-foreground">
-                  Create custom workflows
-                </span>
-              </li>
-              <li className="flex gap-3">
-                <Check className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
-                <span className="text-muted-foreground">
-                  Access to all workflow templates
-                </span>
-              </li>
-              <li className="flex gap-3">
-                <Check className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
-                <span className="text-muted-foreground">
-                  Priority support and onboarding
-                </span>
-              </li>
-            </ul>
 
             <Button
+              className="w-full mb-6"
               size="lg"
-              className="w-full bg-gradient-to-r from-accent to-accent/90 hover:from-accent/90 hover:to-accent/80"
+              onClick={() => navigate("/dashboard")}
             >
-              Start 7-Day Free Trial
+              {/* TODO: Change to "Get Lifetime Access" for paid tools */}
+              Get Started Free
             </Button>
-          </Card>
-        </div>
 
-        {/* FAQ Link */}
-        <div className="mt-12 text-center">
-          <p className="text-muted-foreground">
-            Questions about pricing?{" "}
+            <ul className="space-y-2.5 text-left">
+              {features.map((f) => (
+                <li key={f} className="flex items-center gap-2 text-sm">
+                  <CheckCircle2 className="h-4 w-4 text-primary flex-shrink-0" />
+                  {f}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <p className="mt-4 text-center text-xs text-muted-foreground">
+            Also included with My Tech Passport paid plans.{" "}
             <a
-              href="#faq"
-              className="font-semibold text-accent hover:underline"
+              href="https://mytechpassport.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-foreground"
             >
-              Check our FAQ
+              Learn more
             </a>
           </p>
         </div>

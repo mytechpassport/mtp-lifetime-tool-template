@@ -3,13 +3,12 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Navbar } from "@/components/marketing/Navbar";
 import { Hero } from "@/components/marketing/Hero";
+import { HowItWorks } from "@/components/marketing/HowItWorks";
+import { Features } from "@/components/marketing/Features";
+import { Pricing } from "@/components/marketing/Pricing";
 import { CTA } from "@/components/marketing/CTA";
 import { Footer } from "@/components/marketing/Footer";
 
-/**
- * Landing page for the MTP tool template.
- * Customize Hero, CTA, and add sections (e.g. HowItWorks, FAQ) as needed for your tool.
- */
 const Index = () => {
   const location = useLocation();
 
@@ -25,15 +24,18 @@ const Index = () => {
 
   return (
     <div className="min-h-screen">
+      {/* TODO: Replace title and description with your tool's SEO metadata */}
       <PageSeo
-        title="Mtp Lifetime Tool Template - MyTechPassport"
-        description="Mtp Lifetime Tool Template by MyTechPassport. Automate your workflow instantly."
+        title="Your Tool Name - My Tech Passport"
+        description="Your tool description for SEO. Keep it under 160 characters."
         canonical="/"
       />
-
       <Navbar />
       <main>
         <Hero />
+        <HowItWorks />
+        <Features />
+        <Pricing />
         <CTA />
       </main>
       <Footer />

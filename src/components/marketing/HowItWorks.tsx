@@ -1,89 +1,58 @@
-import { CheckCircle2, Zap, Workflow } from "lucide-react";
+import { Zap } from "lucide-react";
 
+// TODO: Replace icons and content with steps specific to your tool
 const steps = [
   {
-    icon: CheckCircle2,
+    icon: Zap,
     step: "Step 1",
-    title: "Choose Your Department",
+    title: "Step one title",
     description:
-      "Select a bundle matching your department: Marketing, Operations, Consultancy, or Technology.",
+      "Describe what the user does in step one. Keep it short and action-oriented.",
   },
   {
     icon: Zap,
     step: "Step 2",
-    title: "One-Click Activation",
+    title: "Step two title",
     description:
-      "Instantly connect all tools with one click - no setup or API keys needed.",
+      "Describe what happens in step two. Focus on the tool doing the work.",
   },
   {
-    icon: Workflow,
+    icon: Zap,
     step: "Step 3",
-    title: "Automate processes",
+    title: "Step three title",
     description:
-      "Use ready-made templates or build custom workflows with your bundle's integrated tools.",
+      "Describe the result or outcome. What does the user have at the end?",
   },
 ];
 
 export const HowItWorks = () => {
   return (
-    <section
-      id="how-it-works"
-      className="pt-16"
-      style={{ background: "var(--gradient-hero)" }}
-    >
+    <section className="py-16 bg-muted/20" id="how-it-works">
       <div className="container mx-auto px-4 lg:px-8">
-        {/* Section Header */}
-        <div className="mb-16 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-foreground sm:text-4xl lg:text-5xl">
-            From Bundle to Business in 3 Steps
-          </h2>
-          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-            No technical expertise needed. No weeks of setup. Just instant
-            automation.
+        <div className="text-center mb-12">
+          {/* TODO: Replace heading and subtitle */}
+          <h2 className="text-3xl font-bold mb-4">How it works</h2>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            Get results in three simple steps.
           </p>
         </div>
 
-        {/* Steps */}
-        <div className="mx-auto max-w-5xl">
-          <div className="grid gap-12 grid-cols-3">
-            {steps.map((step, index) => {
-              const Icon = step.icon;
-              return (
-                <div key={index} className="relative text-center">
-                  {/* Connector Line (Desktop) */}
-                  {index < steps.length - 1 && (
-                    <div className="absolute left-[60%] top-12 hidden h-px w-[80%] bg-gradient-to-r from-accent to-transparent md:block" />
-                  )}
-
-                  {/* Icon */}
-                  <div className="mx-auto mb-6 flex h-12 md:h-24 w-12 md:w-24 items-center justify-center rounded-2xl bg-gradient-to-br from-accent to-accent/80 shadow-lg">
-                    <Icon className="h-4 w-4 md:h-12 md:w-12 text-white" />
-                  </div>
-
-                  {/* Step Label */}
-                  <div className="mb-3 text-sm font-bold uppercase tracking-wide text-accent">
-                    {step.step}
-                  </div>
-
-                  {/* Title */}
-                  <h3 className="mb-3 text-sm md:text-xl font-bold text-foreground">
-                    {step.title}
-                  </h3>
-
-                  {/* Description */}
-                  {/* <p className="text-muted-foreground">{step.description}</p> */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+          {steps.map((step, index) => {
+            const Icon = step.icon;
+            return (
+              <div key={index} className="flex flex-col items-center text-center">
+                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
+                  <Icon className="h-6 w-6 text-primary" />
                 </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Bottom Message */}
-        <div className="mt-8 text-center">
-          <p className="text-lg font-semibold text-foreground">
-            Average activation time:{" "}
-            <span className="text-accent">Under 60 seconds</span>
-          </p>
+                <div className="mb-2 text-sm font-bold uppercase tracking-wide text-primary">
+                  {step.step}
+                </div>
+                <h3 className="font-semibold text-lg mb-2">{step.title}</h3>
+                <p className="text-sm text-muted-foreground">{step.description}</p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
