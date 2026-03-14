@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/hooks/useAuth";
 import { useToolBySlug, useConnectTool } from "@/hooks/api/useTools";
+import { useSubscription } from "@/hooks/api/useSubscription";
 import type { ToolCatalogItem } from "@/types/mtp";
 
 const MTP_BROWSE_URL = "https://mytechpassport.com/dashboard/browse-tools";
@@ -25,6 +26,10 @@ type ToolAccessGateProps = {
  * - For login-required tools: blocks with Connect / Buy when no access.
  * - For no-login tools (noLoginTool): always shows children; optional dismissible Connect/Buy banner when logged in but not connected.
  * Use slug from your backend (e.g. free: "timezone-converter", "qr-generator"; paid: "whiteboard", "ai-transcription").
+ *
+ * Access is granted when the user has connected, purchased, or the tool is included in their subscription plan.
+ * Plan features are checked dynamically via the subscription API so no frontend changes are needed when
+ * plan configuration changes in the admin hub.
  */
 export function ToolAccessGate({
   slug,
@@ -32,13 +37,22 @@ export function ToolAccessGate({
   noLoginTool = false,
   purchaseBaseUrl = MTP_BROWSE_URL,
 }: ToolAccessGateProps) {
-  const { data: tool, isLoading, isError } = useToolBySlug(slug);
+  const { data: tool, isLoading: isToolLoading, isError } = useToolBySlug(slug);
   const [bannerDismissed, setBannerDismissed] = useState(false);
+
+  // Subscription plan features — only fetched when user is logged in (handled inside the hook)
+  const { user } = useAuth();
+  const isLoggedIn = Boolean(user);
+  const subscriptionQuery = useSubscription();
+
+  // While tool or subscription data is still loading, show a spinner rather than flashing blocked UI
+  const isLoading =
+    isToolLoading || (isLoggedIn && subscriptionQuery.isLoading);
 
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center gap-4 py-12">
-        <Loader2 className="h-10 w-10 animate-spin text-muted-foreground" aria-hidden />
+        {/* <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" aria-hidden /> */}
         <p className="text-muted-foreground">Loading…</p>
       </div>
     );
@@ -65,10 +79,29 @@ export function ToolAccessGate({
     );
   }
 
-  const hasAccess = Boolean(tool.connected ?? tool.owned ?? tool.includedInPlan);
-  const isFree = tool.pricingModel === "free" || (tool.lifetimePrice === 0 || tool.lifetimePrice == null);
-  const showBanner =
-    noLoginTool && !hasAccess && tool.id && !bannerDismissed;
+  // ── Plan-feature access check (dynamic — reflects admin-configured plan features) ──
+  const planData = subscriptionQuery.data?.data ?? null;
+  const toolType = String(tool.toolType ?? "").toLowerCase();
+  const accessViaPlanFeatures =
+    isLoggedIn &&
+    planData !== null &&
+    ((toolType === "mtp_original" && Boolean(planData.mtpToolsFree)) ||
+      Boolean(tool.includedInPlan));
+
+  // Use || (not ??) so every condition is independently evaluated
+  const hasAccess = Boolean(
+    tool.connected ||
+    tool.owned ||
+    tool.includedInPlan ||
+    accessViaPlanFeatures,
+  );
+
+  const isFree =
+    String(tool.pricingModel ?? "").toLowerCase() === "free" ||
+    tool.lifetimePrice === 0 ||
+    tool.lifetimePrice == null;
+
+  const showBanner = noLoginTool && !hasAccess && tool.id && !bannerDismissed;
 
   return (
     <div className="font-sans bg-canvas min-h-full w-full p-4">
@@ -81,7 +114,11 @@ export function ToolAccessGate({
         />
       )}
       {!noLoginTool && !hasAccess && tool.id ? (
-        <BlockedView tool={tool} isFree={isFree} purchaseBaseUrl={purchaseBaseUrl} />
+        <BlockedView
+          tool={tool}
+          isFree={isFree}
+          purchaseBaseUrl={purchaseBaseUrl}
+        />
       ) : (
         children
       )}
@@ -94,16 +131,14 @@ function ConnectOrBuyBanner({
   isFree,
   purchaseBaseUrl,
   onDismiss,
-  user,
-  navigate,
 }: {
   tool: ToolCatalogItem;
   isFree: boolean;
   purchaseBaseUrl: string;
   onDismiss: () => void;
-  user?: { id?: number } | null;
-  navigate: (path: string) => void;
 }) {
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const connectMutation = useConnectTool();
   const handleConnect = async () => {
     if (isFree && !user) {

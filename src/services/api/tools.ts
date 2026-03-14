@@ -80,6 +80,7 @@ const normalizeTool = (tool: Record<string, unknown>): ToolCatalogItem => ({
   is_connected: toBool(tool.is_connected ?? tool.connected),
   is_purchased: toBool(tool.is_purchased ?? tool.owned),
   includedInPlan: toBool(tool.includedInPlan ?? tool.included_in_plan),
+  purchasedDirectly: toBool(tool.purchasedDirectly ?? tool.purchased_directly),
   requiresAuth:
     tool.requiresAuth !== undefined
       ? Number(tool.requiresAuth)
