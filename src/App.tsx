@@ -35,6 +35,7 @@ import TermsOfService from "./pages/marketing/TermsOfService";
 import Esignature from "./pages/marketing/Esignature";
 import EsignLegalityCountry from "./pages/marketing/EsignLegalityCountry";
 import EsignLegalityCountryDetail from "./pages/marketing/EsignLegalityCountryDetail";
+import { ScrollToTop } from "./components/ScrollToTop";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -58,6 +59,7 @@ const App = () => (
               pauseWhenPageIsHidden
             />
           <BrowserRouter>
+            <ScrollToTop />
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<UserAuth />} />

@@ -74,7 +74,7 @@ export const BuyCreditsModal: React.FC<BuyCreditsModalProps> = ({
             Buy AI Credits
           </DialogTitle>
           <DialogDescription>
-            Purchase credits to perform AI actions
+            Purchase credits to perform AI actions and unlock tools
           </DialogDescription>
         </DialogHeader>
 

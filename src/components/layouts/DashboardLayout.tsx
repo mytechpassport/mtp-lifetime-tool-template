@@ -58,7 +58,7 @@ export const DashboardLayout = ({
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background">
       {/* Header */}
-      <header className="border-b border-border/40 bg-background/95 backdrop-blur sticky top-0 z-10">
+      <header className="border-b border-border/40 bg-background/95 backdrop-blur sticky top-0 z-[50]">
         <div className="flex items-center justify-between px-4 py-4">
           <div className="flex items-center gap-3">
             {/* Sidebar toggle button removed - sidebar is disabled */}
@@ -72,7 +72,7 @@ export const DashboardLayout = ({
               )}
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
             {/* Theme selector: system (default), light, dark */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -108,14 +108,14 @@ export const DashboardLayout = ({
                 open={isBuyCreditsOpen}
                 onOpenChange={setIsBuyCreditsOpen}
               >
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1">
                   <span className="text-sm font-medium">
                     <span className="hidden sm:inline">Credits: </span>
-                    {creditsBalance}
+                    {creditsBalance.toFixed(2)}
                   </span>
                   <DialogTrigger asChild>
                     <Button
-                      variant="outline"
+                      variant="ghost"
                       size="icon"
                       className="rounded-full"
                     >
