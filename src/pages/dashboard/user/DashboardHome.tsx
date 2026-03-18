@@ -1,6 +1,9 @@
 import { useAuth } from "@/hooks/useAuth";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Wrench, BookOpen } from "lucide-react";
+import { ToolAccessGate } from "@/components/tool-access/ToolAccessGate";
+
+const MY_TOOL_SLUG = "your_tool_slug_here";
 
 /**
  * Dashboard home - placeholder for your MTP tool.
