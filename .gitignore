@@ -31,3 +31,6 @@ dist-ssr
 fractionalflow/
 AI-Context/backend_codebase_info.md
 AI-Context/VALIDATOR_PROMPT_TEMPLATE.md
+temp_auto_push.bat
+temp_interactive_push.bat
+branch_structure.json
