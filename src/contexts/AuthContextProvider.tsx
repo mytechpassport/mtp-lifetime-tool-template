@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useEffect, ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
+import type { User as VCEUser } from "@/lib/VCESDK";
 import vce from "@/lib/vce";
 import { toast } from "sonner";
 import { TokenManager } from "@/utils/tokenManager";
@@ -8,19 +8,35 @@ import { AuthContext } from "./AuthContext";
 
 export type UserRole = "user" | "vendor";
 
-export interface User {
-  id: string;
-  email: string;
+const normalizeBoolean = (value: unknown): boolean => {
+  if (typeof value === "boolean") return value;
+  if (typeof value === "number") return value === 1;
+  if (typeof value === "string") {
+    return value === "1" || value.toLowerCase() === "true";
+  }
+  return false;
+};
+
+const normalizeUserRole = (value: unknown): UserRole =>
+  value === "vendor" ? "vendor" : "user";
+
+const getDisplayName = (serverUser: VCEUser) => {
+  const metaName = serverUser.user_meta?.name?.trim();
+  if (metaName) return metaName;
+
+  const topLevelName =
+    typeof serverUser.name === "string" ? serverUser.name.trim() : "";
+  if (topLevelName) return topLevelName;
+
+  return serverUser.email.split("@")[0];
+};
+
+export interface User extends Omit<VCEUser, "role" | "name"> {
   role: UserRole;
   name: string;
-  companyName?: string;
-  companyDescription?: string;
   onboarded: boolean;
-  credits?: number;
-  isFirstCreditPurchase?: boolean;
-  purchasedTools?: string[];
-  purchasedBundles?: string[];
-  created_at?: string;
+  companyName?: string | null;
+  companyDescription?: string | null;
 }
 
 export interface AuthContextType {
@@ -40,57 +56,73 @@ export interface AuthContextType {
     redirectPath?: string,
   ) => Promise<void>;
   logout: () => Promise<void>;
-  updateUser: (updates: Partial<User>) => Promise<void>;
-  updateCredits: (amount: number) => void;
-  purchaseTool: (toolId: string, cost?: number) => void;
-  purchaseBundle: (bundleId: string) => void;
   refreshUser: () => Promise<void>;
 }
+
+const mapServerUserToAuthUser = (serverUser: VCEUser): User => {
+  const role = normalizeUserRole(serverUser.role ?? serverUser.user_meta?.role);
+  const onboarded = normalizeBoolean(serverUser.user_meta?.onboarded);
+
+  return {
+    ...serverUser,
+    id: Number(serverUser.id),
+    role,
+    name: getDisplayName(serverUser),
+    onboarded,
+    companyName: serverUser.user_meta?.company_name ?? null,
+    companyDescription: serverUser.user_meta?.company_description ?? null,
+    user_meta: serverUser.user_meta ?? null,
+  };
+};
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Initialize authentication state on app load
+  const loadAuthenticatedUser = async () => {
+    const currentUser = await vce.getUser();
+    if (!currentUser) {
+      setUser(null);
+      return null;
+    }
+
+    const mappedUser = mapServerUserToAuthUser(currentUser);
+    setUser(mappedUser);
+    return mappedUser;
+  };
+
   useEffect(() => {
     const initializeAuth = async () => {
       try {
-        // Initialize token manager
         TokenManager.initialize();
 
-        // Try to get current user from backend (cookie-based auth takes precedence)
-        // The backend will authenticate via cookie (mtp_auth_token) or Bearer token
         try {
-          const currentUser = await vce.getUser();
-          if (currentUser) {
-            // User is authenticated (either via cookie or localStorage token)
-            const mappedUser: User = {
-              id: currentUser.id,
-              email: currentUser.email,
-              role: (currentUser.role as UserRole) || "user",
-              name: currentUser.email.split("@")[0], // Fallback name
-              onboarded: true, // Will be updated based on backend data
-              created_at: currentUser.created_at,
-            };
-            setUser(mappedUser);
-
-            // If we have a user but no localStorage token, the cookie is working
-            // This is the expected behavior for cookie-based auth
+          const authenticatedUser = await loadAuthenticatedUser();
+          if (authenticatedUser) {
             const hasLocalToken = TokenManager.getAccessToken();
             if (!hasLocalToken) {
-              console.log("✅ Authenticated via cookie (mtp_auth_token)");
+              console.log("Authenticated via cookie (mtp_auth_token)");
             }
           } else {
-            // No user found, clear any stale tokens
             TokenManager.clearTokens();
           }
-        } catch (error: any) {
-          // If 401, user is not authenticated - clear tokens
-          if (error?.status === 401 || error?.message?.includes("401")) {
-            TokenManager.clearTokens();
+        } catch (error: unknown) {
+          if (
+            typeof error === "object" &&
+            error !== null &&
+            ("status" in error || "message" in error)
+          ) {
+            const authError = error as { status?: number; message?: string };
+            if (
+              authError.status === 401 ||
+              authError.message?.includes("401")
+            ) {
+              TokenManager.clearTokens();
+            } else {
+              console.error("Auth check failed (non-401):", error);
+            }
           } else {
-            // Other errors (network, etc.) - don't clear tokens yet
-            console.error("Auth check failed (non-401):", error);
+            console.error("Auth check failed:", error);
           }
         }
       } catch (error) {
@@ -107,29 +139,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       const response = await vce.signIn(email, password);
 
-      if (response.session?.access_token) {
-        // Store tokens (Bearer); backend also sets HttpOnly cookie for MTP cross-subdomain auth
-        TokenManager.storeTokens(
-          response.session.access_token,
-          response.session.refresh_token,
-          response.session.expires_in,
-        );
-
-        // Map backend user to frontend user interface
-        const mappedUser: User = {
-          id: response.user.id,
-          email: response.user.email,
-          role: (response.user.role as UserRole) || role,
-          name: response.user.email.split("@")[0], // Fallback name
-          onboarded: true, // Will be updated based on backend data
-          created_at: response.user.created_at,
-        };
-
-        setUser(mappedUser);
-        toast.success(`Welcome back ${mappedUser.name}!`);
-      } else {
+      if (!response.session?.access_token) {
         throw new Error("Authentication failed");
       }
+
+      TokenManager.storeTokens(
+        response.session.access_token,
+        response.session.refresh_token,
+        response.session.expires_in,
+      );
+
+      const hydratedUser = await loadAuthenticatedUser();
+      toast.success(`Welcome back ${hydratedUser?.name ?? email}!`);
     } catch (error) {
       ErrorHandler.logError(error, "login");
       ErrorHandler.handleApiError(error);
@@ -150,42 +171,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         role,
       };
 
-      // Only add referral code for user role
       if (role === "user" && referralCode) {
         signupData.referral_code = referralCode;
       }
 
       const response = await vce.signUp(email, password, { data: signupData });
 
-      if (response.session?.access_token) {
-        // Store tokens using TokenManager
-        TokenManager.storeTokens(
-          response.session.access_token,
-          response.session.refresh_token,
-          response.session.expires_in,
-        );
-
-        // Map backend user to frontend user interface
-        const mappedUser: User = {
-          id: response.user?.id,
-          email,
-          name,
-          role,
-          onboarded: false, // New users need onboarding
-          created_at: response.user?.created_at,
-          ...(role === "user" && {
-            credits: 0,
-            isFirstCreditPurchase: true,
-            purchasedTools: [],
-            purchasedBundles: [],
-          }),
-        };
-
-        setUser(mappedUser);
-        toast.success("Account created successfully!");
-      } else {
+      if (!response.session?.access_token) {
         throw new Error("Account creation failed");
       }
+
+      TokenManager.storeTokens(
+        response.session.access_token,
+        response.session.refresh_token,
+        response.session.expires_in,
+      );
+
+      await loadAuthenticatedUser();
+
+      toast.success("Account created successfully!");
     } catch (error) {
       ErrorHandler.logError(error, "signup");
       ErrorHandler.handleApiError(error);
@@ -199,7 +203,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     } catch (error) {
       console.error("Logout error:", error);
     } finally {
-      // Always clear local state regardless of backend response
       setUser(null);
       TokenManager.clearTokens();
       toast.success("Logged out successfully");
@@ -212,32 +215,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     redirectPath?: string,
   ) => {
     try {
-      // Build the external redirect URL to redirect back to this tool after OAuth
-      // Use window.location.origin so if the base URL changes, we don't need to update code
       const externalRedirectUrl = `${window.location.origin}/dashboard`;
-
-      // Prepare complete state object with all necessary info (NO SESSION STORAGE)
-      // Include externalRedirectUrl so MTP Main knows to redirect back to this tool
       const stateObject = {
-        role: "user", // OAuth is only for users
+        role: "user",
         referralCode: referralCode || undefined,
         redirectPath: redirectPath || undefined,
-        externalRedirectUrl, // MTP Main will redirect to this URL after auth
+        externalRedirectUrl,
         timestamp: Date.now(),
       };
 
-      // Initiate OAuth flow with state containing all necessary info including externalRedirectUrl
       const oauthResponse = await vce.initiateOAuth(provider, {
         state: JSON.stringify(stateObject),
       });
 
-      if (oauthResponse.authorization_url) {
-        // NO MORE SESSION STORAGE - everything is in state
-        // Redirect to OAuth provider
-        window.location.href = oauthResponse.authorization_url;
-      } else {
+      if (!oauthResponse.authorization_url) {
         throw new Error("Failed to initiate OAuth flow");
       }
+
+      window.location.href = oauthResponse.authorization_url;
     } catch (error) {
       ErrorHandler.logError(error, "OAuth login");
       ErrorHandler.handleApiError(error);
@@ -245,125 +240,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const updateUser = async (updates: Partial<User>) => {
-    if (!user) return;
-
-    try {
-      // Update user data via backend APIs
-      if (updates.name && updates.name !== user.name) {
-        await vce.updateName(updates.name);
-      }
-
-      if (updates.email && updates.email !== user.email) {
-        await vce.updateEmail(updates.email);
-      }
-
-      // Update local user state
-      const updatedUser = { ...user, ...updates };
-      setUser(updatedUser);
-
-      toast.success("Profile updated successfully");
-    } catch (error) {
-      ErrorHandler.logError(error, "update user");
-      ErrorHandler.handleApiError(error);
-      throw error;
-    }
-  };
-
   const refreshUser = async () => {
     try {
-      const currentUser = await vce.getUser();
-      if (currentUser) {
-        const mappedUser: User = {
-          id: currentUser.id,
-          email: currentUser.email,
-          role: (currentUser.role as UserRole) || "user",
-          name: user?.name || currentUser.email.split("@")[0],
-          onboarded: user?.onboarded || true,
-          created_at: currentUser.created_at,
-          // Preserve frontend-specific fields
-          credits: user?.credits,
-          isFirstCreditPurchase: user?.isFirstCreditPurchase,
-          purchasedTools: user?.purchasedTools,
-          purchasedBundles: user?.purchasedBundles,
-        };
-        setUser(mappedUser);
-      }
+      await loadAuthenticatedUser();
     } catch (error) {
       console.error("Refresh user error:", error);
-      // Don't throw error, just log it
-    }
-  };
-
-  const updateCredits = (amount: number) => {
-    if (user && user.role === "user") {
-      const updatedUser = {
-        ...user,
-        credits: (user.credits || 0) + amount,
-        isFirstCreditPurchase: false,
-      };
-      setUser(updatedUser);
-      localStorage.setItem("mockUser", JSON.stringify(updatedUser));
-
-      // Update in users list
-      const usersKey = `mockUsers_${user.role}`;
-      const users = JSON.parse(localStorage.getItem(usersKey) || "[]");
-      const updatedUsers = users.map((u: User) =>
-        u.id === user.id ? updatedUser : u,
-      );
-      localStorage.setItem(usersKey, JSON.stringify(updatedUsers));
-    }
-  };
-
-  const purchaseTool = (toolId: string, cost?: number) => {
-    if (
-      user &&
-      user.role === "user" &&
-      !user.purchasedTools?.includes(toolId)
-    ) {
-      // Check if user has enough credits (if cost is provided)
-      if (cost && (user.credits || 0) < cost) {
-        throw new Error("Insufficient credits");
-      }
-
-      const updatedUser = {
-        ...user,
-        purchasedTools: [...(user.purchasedTools || []), toolId],
-        ...(cost && { credits: (user.credits || 0) - cost }),
-      };
-      setUser(updatedUser);
-      localStorage.setItem("mockUser", JSON.stringify(updatedUser));
-
-      // Update in users list
-      const usersKey = `mockUsers_${user.role}`;
-      const users = JSON.parse(localStorage.getItem(usersKey) || "[]");
-      const updatedUsers = users.map((u: User) =>
-        u.id === user.id ? updatedUser : u,
-      );
-      localStorage.setItem(usersKey, JSON.stringify(updatedUsers));
-    }
-  };
-
-  const purchaseBundle = (bundleId: string) => {
-    if (
-      user &&
-      user.role === "user" &&
-      !user.purchasedBundles?.includes(bundleId)
-    ) {
-      const updatedUser = {
-        ...user,
-        purchasedBundles: [...(user.purchasedBundles || []), bundleId],
-      };
-      setUser(updatedUser);
-      localStorage.setItem("mockUser", JSON.stringify(updatedUser));
-
-      // Update in users list
-      const usersKey = `mockUsers_${user.role}`;
-      const users = JSON.parse(localStorage.getItem(usersKey) || "[]");
-      const updatedUsers = users.map((u: User) =>
-        u.id === user.id ? updatedUser : u,
-      );
-      localStorage.setItem(usersKey, JSON.stringify(updatedUsers));
     }
   };
 
@@ -376,10 +257,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         signup,
         logout,
         oauthLogin,
-        updateUser,
-        updateCredits,
-        purchaseTool,
-        purchaseBundle,
         refreshUser,
       }}
     >

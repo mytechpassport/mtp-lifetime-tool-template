@@ -53,11 +53,49 @@ class VCEURLSearchParams extends URLSearchParams {
   }
 }
 
+interface VCEUserMeta {
+  id?: number;
+  user_id?: number;
+  name?: string | null;
+  role?: string | null;
+  stripe_customer_id?: string | null;
+  stripe_subscription_id?: string | null;
+  stripe_subscription_plan?: string | null;
+  stripe_trial_end_date?: string | null;
+  stripe_subscription_start_at?: string | null;
+  stripe_subscription_end_at?: string | null;
+  referral_code?: string | null;
+  referrer_id?: number | null;
+  stripe_cancel_reason?: string | null;
+  updated_at?: string;
+  onboarded?: number | boolean | null;
+  onboarded_at?: string | null;
+  company_name?: string | null;
+  company_description?: string | null;
+  payout_method_type?: string | null;
+  payout_method_details_json?: string | null;
+  default_payment_method_type?: string | null;
+  default_payment_method_details_json?: string | null;
+  is_first_credit_purchase?: number | boolean | null;
+  [key: string]: any;
+}
+
 interface User {
-  id: string;
+  id: number;
   email: string;
-  created_at: string;
+  created_at?: string;
+  updated_at?: string;
+  auth_method?: string;
+  status?: string;
+  email_verified?: number | boolean;
+  email_verification_token?: string | null;
+  email_verification_sent_at?: string | null;
+  last_login_at?: string | null;
   role?: string;
+  name?: string | null;
+  referral_code?: string | null;
+  user_meta?: VCEUserMeta | null;
+  [key: string]: any;
 }
 
 interface Session {

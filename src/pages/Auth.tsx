@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { UserRole } from "@/contexts/AuthContext";
+import { UserRole } from "@/contexts/AuthContextProvider";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -89,13 +89,7 @@ const Auth = () => {
     setLoading(true);
 
     try {
-      // Mock OAuth flow - in real app this would redirect to OAuth provider
-      const mockUserData = {
-        email: `user@${provider}.com`,
-        name: `${provider.charAt(0).toUpperCase() + provider.slice(1)} User`,
-      };
-
-      await oauthLogin(provider, mockUserData);
+      await oauthLogin(provider);
 
       toast({
         title: "Welcome!",
